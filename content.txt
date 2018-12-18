@@ -1,0 +1,93 @@
+
+
+巡检项目
+	表检查
+		超过10G大表
+		索引数目超过8个的表
+		碎片超过1G的表
+		单表超过2000万的表
+		非默认字符集表
+		大字段表
+		字段长度过大的表
+		
+	索引检查
+		无主键/索引表
+		重复索引
+		字段过多索引
+		未使用的索引
+		
+	参数检查(variables)
+		1.version
+
+		# InnoDB
+		1.innodb_flush_neighbors
+		2.innodb_flush_method
+		3.innodb_file_per_table
+		4.innodb_open_files
+		5.innodb_data_home_dir
+		6.innodb_io_capacity
+		7.innodb_lock_wait_timeout
+		8.innodb_thread_concurrency
+
+		# Redo
+		1.innodb_flush_log_at_trx_commit
+		2.innodb_log_file_size
+		4.innodb_log_files_in_group
+		5.innodb_log_buffer_size
+
+		# change buffer
+		1.innodb_change_buffer_max_size
+		2.innodb_change_buffering
+
+		# Other
+		1.sync_binlog
+		2.max_connections
+		3.query_cache_type
+		4.sort_buffer_size
+		5.read_buffer_size
+		6.max_allowed_packet
+		7.table_open_cache
+		8.thread_cache_size
+		9.key_buffer_size
+		10.字符集
+		11.time_zone
+		12.默认存储引擎
+		13.max_execution_time
+		
+	InnoDB buffer pool检查:
+		1.innodb_buffer_pool_size                   #缓冲池大小
+		2.innodb_lru_scan_depth                     #控制LRU列表中可用页的数量，默认值为1024
+		3.innodb_buffer_pool_instances              #缓冲池实例数
+		4.innodb_max_dirty_pages_pct                #达到最大脏页占比，强制进行 checkpoint, 刷新一部分的脏页到磁盘
+		5.innodb_buffer_pool_pages_dirty            #脏页数据的大小
+		6.innodb_buffer_pool_pages_total            #页总数
+		7.innodb_buffer_pool_read_requests          #从缓冲池读取页的次数
+		8.innodb_buffer_pool_read_ahead             #预读的次数
+		9.innodb_buffer_pool_reads                  #从磁盘读取页的次数
+		10.计算脏页占比  innodb_buffer_pool_pages_dirty/innodb_buffer_pool_pages_total
+		11.计算InnoDB buffer pool 命中率 innodb_buffer_pool_read_requests/(innodb_buffer_pool_read_requests + innodb_buffer_pool_read_ahead + innodb_buffer_pool_reads)
+	
+	
+	状态值:
+	  1).当前并发连接数:
+		Threads_connected  表示当前所有已经连接的线程数
+		Threads_created    表示当前所有已经创建的线程数
+		Threads_running    表示当前正在运行的线程数
+	  2).行锁等待:
+		Innodb_row_lock_current_waits  表示当前发生行锁等待的次数
+		Innodb_row_lock_time        表示当前发生行锁等待的总时间（以毫秒为单位）
+		Innodb_row_lock_time_avg    表示当前发生行锁等待的平均时间（以毫秒为单位）
+		Innodb_row_lock_time_max    表示当前发生行锁等待的最大时间（以毫秒为单位）
+		Innodb_row_lock_waits       表示发生行锁等待的总次数
+
+		如果 Innodb_row_lock_time_avg 跟 Innodb_row_lock_time_max 的差值很大 ，需要看慢SQL;
+			
+	
+	
+	
+	
+	
+	
+	
+	
+感谢徐晨亮, 给了我一个很好的参考
