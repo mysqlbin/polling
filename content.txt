@@ -73,6 +73,7 @@
 		Threads_connected  表示当前所有已经连接的线程数
 		Threads_created    表示当前所有已经创建的线程数
 		Threads_running    表示当前正在运行的线程数
+		
 	  2).行锁等待:
 		Innodb_row_lock_current_waits  表示当前发生行锁等待的次数
 		Innodb_row_lock_time        表示当前发生行锁等待的总时间（以毫秒为单位）
@@ -82,7 +83,11 @@
 
 		如果 Innodb_row_lock_time_avg 跟 Innodb_row_lock_time_max 的差值很大 ，需要看慢SQL;
 			
-	
+		
+	  3). opend_files
+	  4). opend_tables
+	  5). Max_used_connections
+	  
 	
 	
 	
