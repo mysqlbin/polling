@@ -30,7 +30,7 @@ print '''
 6.charset
 7.big column
 8.long column
-
+9.auto increment ratio
 ----------------------------------------------------------------------------------------------------------------
 '''
 #1.get tables more than 10G
@@ -56,7 +56,7 @@ information_schema.tables  where table_schema not in \
 ('information_schema','mysql','performance_schema','sys') order by all_mb desc limit 20")
 table_size_20 = cursor.fetchall()
 
-print "\033[1;33;44m 1: result of the top 20 tables\033[0m"
+print "\033[1;33;44m 2: result of the top 20 tables\033[0m"
 if table_size_20:
     for table in table_size_20:
         table_schema = table[0]
@@ -75,7 +75,7 @@ cursor.execute("select t1.name,t2.num from information_schema.innodb_sys_tables 
 information_schema.innodb_sys_indexes group by table_id having count(*) >=6) t2 where t1.table_id =t2.table_id")
 table_index = cursor.fetchall()
 
-print "\033[1;33;44m 2: result of table more than 6 indexes\033[0m"
+print "\033[1;33;44m 3: result of table more than 6 indexes\033[0m"
 if table_index:
     for table in table_index:
         table_name = table[0]
@@ -92,7 +92,7 @@ information_schema.TABLES where table_schema not in ('information_schema','mysql
 and data_free > 1*1024*1024*1024 order by DATA_FREE desc;")
 table_fragment = cursor.fetchall()
 
-print "\033[1;33;44m 3: result of table has big fragment\033[0m"
+print "\033[1;33;44m 4: result of table has big fragment\033[0m"
 if table_fragment:
     for table in table_fragment:
         table_schema = table[0]
@@ -109,7 +109,7 @@ information_schema.TABLES where table_schema not in ('information_schema','mysql
 and table_rows > 20000000 order by table_rows desc;")
 table_fragment = cursor.fetchall()
 
-print "\033[1;33;44m 4: result of table has more than 20000000 rows\033[0m"
+print "\033[1;33;44m 5: result of table has more than 20000000 rows\033[0m"
 if table_fragment:
     for table in table_fragment:
         table_schema = table[0]
@@ -129,7 +129,7 @@ in ('information_schema','mysql','performance_schema','sys') and table_collation
 cursor.execute(sql)
 table_charset = cursor.fetchall()
 
-print "\033[1;33;44m 5: result of table is not in default charset\033[0m"
+print "\033[1;33;44m 6: result of table is not in default charset\033[0m"
 if table_charset:
     for table in table_charset:
         table_schema = table[0]
@@ -146,7 +146,7 @@ cursor.execute("select table_schema,table_name,column_name,data_type from inform
 ('information_schema','performance_schema','mysql','sys')")
 table_big_cols = cursor.fetchall()
 
-print "\033[1;33;44m 6: result of table has big columns\033[0m"
+print "\033[1;33;44m 7: result of table has big columns\033[0m"
 if table_big_cols:
     for table in table_big_cols:
         table_schema = table[0]
@@ -164,7 +164,7 @@ where DATA_TYPE='varchar' and CHARACTER_MAXIMUM_LENGTH > 500 and table_schema no
 ('information_schema','performance_schema','mysql','sys');")
 table_long_cols = cursor.fetchall()
 
-print "\033[1;33;44m 7: result of table has long columns\033[0m"
+print "\033[1;33;44m 8: result of table has long columns\033[0m"
 if table_long_cols:
     for table in table_long_cols:
         table_schema = table[0]
@@ -177,6 +177,24 @@ if table_long_cols:
 else:
     print "no table has has big columns"
 
+#9.auto increment ratio
+cursor.execute("select table_schema,table_name,max_value,auto_increment,auto_increment_ratio from sys.schema_auto_increment_columns  \
+where auto_increment_ratio > '0.0001' and table_schema not in \
+('information_schema','mysql','performance_schema','sys') order by auto_increment_ratio desc")
+auto_increment = cursor.fetchall()
+
+print "\033[1;33;44m 9: result of auto increment ratio\033[0m"
+if auto_increment:
+    for table in auto_increment:
+        table_schema = table[0]
+        table_name = table[1]
+        max_value = table[2]
+        auto_increment = table[3]
+        auto_increment_ratio = table[4]
+        print " table_schema: %-20s  table_name : %-30s all_size: %-15s data_size: %-15s index_size: %-15s " % \
+              (table_schema, table_name, max_value, auto_increment, auto_increment_ratio)
+else:
+    print "no table auto increment ratio has more than 50%"
 
 
 print '''
