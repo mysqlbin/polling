@@ -13,22 +13,27 @@ print "++                                          MySQL Check report           
 print "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
 
 print "start time: %s" % datetime.datetime.now()
-#table_check
 
 print '''
 ----------------------------------------------------------------------------------------------------------------
-start table check
+'''
+print "\033[1;33;46m start table check\033[0m"
+
+print '''
+----------------------------------------------------------------------------------------------------------------
+
 1.size
-2.much indexes
-3.fragment
-4.rows
-5.charset
-6.big column
-7.long column
+2.top 20 tables
+3.much indexes
+4.fragment
+5.rows
+6.charset
+7.big column
+8.long column
 
 ----------------------------------------------------------------------------------------------------------------
 '''
-#get tables more than 10G
+#1.get tables more than 10G
 cursor.execute("select table_schema,table_name,concat(round((data_length+index_length)/1024/1024,2),'M') FROM \
 information_schema.tables where (DATA_LENGTH+INDEX_LENGTH) > 10*1024*1024*1024  and table_schema not in \
 ('information_schema','mysql','performance_schema','sys')")
@@ -45,7 +50,27 @@ if table_size:
 else:
     print "no table is more than 10G"
 
-#get tables which have more than 6 indexes
+#2.get the top 20 tables
+cursor.execute("SELECT table_schema,table_name,(data_length/1024/1024) AS data_mb,(index_length/1024/1024) AS index_mb,((data_length + index_length)/1024/1024) AS all_mb,table_rows FROM  \
+information_schema.tables  where table_schema not in \
+('information_schema','mysql','performance_schema','sys') order by all_mb desc limit 20")
+table_size_20 = cursor.fetchall()
+
+print "\033[1;33;44m 1: result of the top 20 tables\033[0m"
+if table_size_20:
+    for table in table_size_20:
+        table_schema = table[0]
+        table_name = table[1]
+        data_size = table[2]
+        index_size = table[3]
+        all_size = table[4]
+        table_rows = table[5]
+        print " table_schema: %-20s  table_name : %-30s all_size: %-15s data_size: %-15s index_size: %-15s rows: %-5s" % \
+              (table_schema, table_name, all_size, data_size, index_size, table_rows)
+else:
+    print "no tabls the top 20"
+
+#3.get tables which have more than 6 indexes
 cursor.execute("select t1.name,t2.num from information_schema.innodb_sys_tables t1, (select table_id,count(*) as num from \
 information_schema.innodb_sys_indexes group by table_id having count(*) >=6) t2 where t1.table_id =t2.table_id")
 table_index = cursor.fetchall()
@@ -61,7 +86,7 @@ else:
     print "no table has more than 6 indexes"
 
 
-#get tables which have big fragment
+#4.get tables which have big fragment
 cursor.execute("select table_schema,table_name,DATA_FREE from \
 information_schema.TABLES where table_schema not in ('information_schema','mysql','performance_schema','sys') \
 and data_free > 1*1024*1024*1024 order by DATA_FREE desc;")
@@ -78,7 +103,7 @@ if table_fragment:
 else:
     print "no table has big fragment"
 
-#get tables which have 20000000 rows
+#5.get tables which have 20000000 rows
 cursor.execute("select table_schema,table_name,table_rows from \
 information_schema.TABLES where table_schema not in ('information_schema','mysql','performance_schema','sys') \
 and table_rows > 20000000 order by table_rows desc;")
@@ -95,7 +120,7 @@ if table_fragment:
 else:
     print "no table has has more than 20000000 rows"
 
-#get table charset not default
+#6.get table charset not default
 cursor.execute("show variables like 'character_set_server';")
 default_charset = str(cursor.fetchone()[1])
 default_charset = default_charset+"_general_ci"
@@ -115,7 +140,7 @@ if table_charset:
 else:
     print "no table is not in default charset"
 
-#get tables which have big columns
+#7.get tables which have big columns
 cursor.execute("select table_schema,table_name,column_name,data_type from information_schema.columns where data_type in \
 ('blob','clob','text','medium text','long text') and table_schema not in \
 ('information_schema','performance_schema','mysql','sys')")
@@ -133,7 +158,7 @@ if table_big_cols:
 else:
     print "no table has has big columns"
 
-#get tables which have long varchar columns
+#8.get tables which have long varchar columns
 cursor.execute("select table_schema,table_name,column_name,data_type,CHARACTER_MAXIMUM_LENGTH from information_schema.columns \
 where DATA_TYPE='varchar' and CHARACTER_MAXIMUM_LENGTH > 500 and table_schema not in \
 ('information_schema','performance_schema','mysql','sys');")
@@ -154,10 +179,13 @@ else:
 
 
 
-# index check
 print '''
 ----------------------------------------------------------------------------------------------------------------
-start index check
+'''
+print "\033[1;33;46m start index check\033[0m"
+
+print '''
+----------------------------------------------------------------------------------------------------------------
 1.get tables which have not indexes
 2.redundant indexes
 3.to much columns indexes
@@ -220,20 +248,19 @@ else:
     print "all index have column under 5"
 
 
-# #unused indexes
-# cursor.execute("select * from sys.schema_unused_indexes;")
-# unused_indexes = cursor.fetchall()
-#
-# print "\033[1;33;44m 4: result of redundant indexes\033[0m"
-# if unused_indexes:
-#     for index in unused_indexes:
-#         table_schema = index[0]
-#         table_name = index[1]
-#         index_name = index[2]
-#         print " table_schema: %-20s  table_name: %-20s index_name: %-20s" % \
-#               (table_schema, table_name, index_name)
-# else:
-#     print "no unused indexes"
+#unused indexes
+cursor.execute("select * from sys.schema_unused_indexes;")
+unused_indexes = cursor.fetchall()
+print "\033[1;33;44m 4: result of redundant indexes\033[0m"
+if unused_indexes:
+    for index in unused_indexes:
+        table_schema = index[0]
+        table_name = index[1]
+        index_name = index[2]
+        print " table_schema: %-20s  table_name: %-45s index_name: %-20s" % \
+              (table_schema, table_name, index_name)
+else:
+    print "no unused indexes"
 
 
 time.sleep(1)

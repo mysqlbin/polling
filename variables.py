@@ -45,6 +45,28 @@ if table_size:
 else:
     print "no table is more than 10G"
 
+
+#get the top 20 tables
+cursor.execute("SELECT table_schema,table_name,(data_length/1024/1024) AS data_mb,(index_length/1024/1024) AS index_mb,((data_length + index_length)/1024/1024) AS all_mb,table_rows FROM  \
+information_schema.tables  where table_schema not in \
+('information_schema','mysql','performance_schema','sys') order by all_mb desc limit 20")
+table_size_20 = cursor.fetchall()
+
+print "\033[1;33;44m 1: result of the top 20 tables\033[0m"
+if table_size_20:
+    for table in table_size_20:
+        table_schema = table[0]
+        table_name = table[1]
+        data_size = table[2]
+        index_size = table[3]
+        all_size = table[4]
+        table_rows = table[5]
+        print " table_schema: %-10s  table_name : %-30s all_size: %-15s data_size: %-15s index_size: %-15s length: %-5s" % \
+              (table_schema, table_name, all_size, data_size, index_size, table_rows)
+else:
+    print "no tabls the top 20"
+
+
 #get tables which have more than 6 indexes
 cursor.execute("select t1.name,t2.num from information_schema.innodb_sys_tables t1, (select table_id,count(*) as num from \
 information_schema.innodb_sys_indexes group by table_id having count(*) >=6) t2 where t1.table_id =t2.table_id")
@@ -73,7 +95,7 @@ if table_fragment:
         table_schema = table[0]
         table_name = table[1]
         data_free = table[2]
-        print " table_schema: %-20s  table_name : %-20s fragment: %10s " % \
+        print " table_schema: %-20s  table_name : %-20s fragment: %5s " % \
               (table_schema, table_name, data_free)
 else:
     print "no table has big fragment"
@@ -93,7 +115,7 @@ if table_fragment:
         print " table_schema: %-20s  table_name : %-20s table_rows: %10d " % \
               (table_schema, table_name, table_rows)
 else:
-    print "no table has has more than 20000000 rows"
+    print "no table has more than 20000000 rows"
 
 #get table charset not default
 cursor.execute("show variables like 'character_set_server';")
