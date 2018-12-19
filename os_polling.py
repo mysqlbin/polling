@@ -1,91 +1,76 @@
-#!/usr/bin/env python
-#-*- coding:utf-8 -*-
-import os
-import MySQLdb
-import time,datetime
-import re
+#!/usr/local/bin/python3
+#coding=utf-8
+import subprocess
 
-conn = MySQLdb.connect(host='192.168.0.54', port=3306, user='root', passwd='123456abc', db='niuniu_db', charset='utf8')
-cursor = conn.cursor()
+# (命令正常执行返回0，报错则返回1)
+def IO_scheduler():
+    x=input('输入yes进行IO调度算法的优化：')
+    command = '''echo 'deadline' >/sys/block/sda/queue/scheduler'''
+    if x == 'yes':
+        print('now do:', command)
+        (status, output)=subprocess.getstatusoutput(command)
+        if status == 0:
+            print ("\033[1;33;46m IO scheduling changed\033[0m")
+        if status != 0:
+            print('\033[1;32;41m fail,please check manually \033[0m!')
 
-print "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
-print "++                                          MySQL Check report                                                ++"
-print "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
 
-print "start time: %s" % datetime.datetime.now()
-#table_check
+def open_files():
+    x = input('输入yes优化文件打开数量：')
+    command1 = '''echo '* soft nofile 65536' >>/etc/security/limits.conf'''
+    command2 = '''echo '* hard nofile 65536' >>/etc/security/limits.conf'''
+    if x == 'yes':
+        print('now do:', command1)
+        (status, output)=subprocess.getstatusoutput(command1)
+        if status == 0:
+            print ("\033[1;33;46m open files changed online\033[0m")
+        if status != 0:
+            print('\033[1;32;41m fail,please check manually \033[0m!')
+        print('now do:', command2)
+        (status, output)=subprocess.getstatusoutput(command2)
+        if status == 0:
+            print ("\033[1;33;46m open files changed online\033[0m")
+        if status != 0:
+            print('\033[1;32;41m fail,please check manually \033[0m!')
 
+def disable_numa():
+    x = input('输入yes关闭NUMA(需联网)：')
+    command1 = '''yum -y install numactl'''
+    command2 = '''numactl --interleave=all'''
+    if x == 'yes':
+        print('now do:', command1)
+        (status, output)=subprocess.getstatusoutput(command1)
+        if status == 0:
+            print ("\033[1;33;46m numactl is installed successfully\033[0m")
+        if status != 0:
+            #print('fail,please check manually')
+            print('\033[1;32;41m error please check manually \033[0m!')
+    if x == 'yes':
+        print('now do:', command2)
+        (status, output)=subprocess.getstatusoutput(command2)
+        if status == 0:
+            print ("\033[1;33;46m NUMA close successfully\033[0m")
+        if status != 0:
+            print('\033[1;32;41m please restart system,check again \033[0m!')
 
-print '''
+def suggest(cmd, title, suggest):
+    (status,output) = subprocess.getstatusoutput(cmd)
+    print ('''
 ----------------------------------------------------------------------------------------------------------------
-start status check
+    ''')
+    print("######{}#######".format(title))
+    print(output)
+    print("*******{}*******".format(suggest))
 
-  1).当前并发连接数:
-	Threads_connected  表示当前所有已经连接的线程数
-	Threads_created    表示当前所有已经创建的线程数
-	Threads_running    表示当前正在运行的线程数
+suggest("df -Th|awk '{print $1,$2}'|grep -v 'tmpfs'","1.查看文件系统","建议data分区为xfs")
+suggest("cat /sys/block/sda/queue/scheduler","2.查看IO调度算法","建议采用deadline算法，不要用cfg算法")
+IO_scheduler()
+suggest("ulimit -a|grep 'open files'","3.查看文件打开数","建议设置为系统最大65535")
+open_files()
+suggest("grep -i numa /var/log/dmesg","4.NUMA是否开启","强烈建议关闭NUMA")
+disable_numa()
+# suggest("sysctl -a | grep swappiness","5.swap占用比","建议值设置为1-10")
+# suggest("sysctl -a | grep dirty_ratio","6.dirty刷新脏页比1","设置为10比较好")
+# suggest("sysctl -a | grep dirty_background_ratio","7.dirty刷新脏页比2","设置为5比较好")
 
-  2).行锁等待:
-    Innodb_row_lock_current_waits  表示当前发生行锁等待的次数
-    Innodb_row_lock_time        表示当前发生行锁等待的总时间（以毫秒为单位）
-    Innodb_row_lock_time_avg    表示当前发生行锁等待的平均时间（以毫秒为单位）
-    Innodb_row_lock_time_max    表示当前发生行锁等待的最大时间（以毫秒为单位）
-    Innodb_row_lock_waits       表示发生行锁等待的总次数
-
-  3). opend_files
-  4). Opened_table_definitions files
-  5). opend_tables
-  6). Max_used_connections
-
-----------------------------------------------------------------------------------------------------------------
-'''
-
-#1.Threads_
-sql_threads_number = "show global status like '%Threads_%'"
-cursor.execute(sql_threads_number)
-threads_number = cursor.fetchall()
-if threads_number:
-    for threads in threads_number:
-        threads_name = threads[0]
-        threads_value = threads[1]
-        print "%s : %s" % (threads_name, threads_value)
-
-#2.Innodb_row_lock
-sql_innodb_row_lock = "show global status like '%Innodb_row_lock%'"
-cursor.execute(sql_innodb_row_lock)
-row_lock_number = cursor.fetchall()
-if row_lock_number:
-    for row_lock in row_lock_number:
-        row_lock_name = row_lock[0]
-        row_lock_value = row_lock[1]
-        print "%s : %s" % (row_lock_name, row_lock_value)
-
-
-#3.opened files
-sql_Opened_files = "show global status like 'Opened_files'"
-cursor.execute(sql_Opened_files)
-data = cursor.fetchone()
-Opened_files = data[1]
-print "Opened_files: %s" % Opened_files
-
-#4.Opened_table_definitions files
-sql_Opened_table_definitions = "show global status like 'Opened_table_definitions'"
-cursor.execute(sql_Opened_table_definitions)
-data = cursor.fetchone()
-Opened_table_definitions = data[1]
-print "Opened_table_definitions: %s" % Opened_table_definitions
-
-#5.Opened_tables
-sql_Opened_tables = "show global status like 'Opened_tables'"
-cursor.execute(sql_Opened_tables)
-data = cursor.fetchone()
-Opened_tables = data[1]
-print "Opened_tables: %s" % Opened_tables
-
-#6.Max_used_connections
-sql_Max_used_connections = "show global status like 'Max_used_connections'"
-cursor.execute(sql_Max_used_connections)
-data = cursor.fetchone()
-Max_used_connections = data[1]
-print "Max_used_connections: %s" % Max_used_connections
 
