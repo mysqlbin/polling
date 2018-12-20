@@ -302,6 +302,54 @@ else:
 time.sleep(1)
 
 
+print '''
+----------------------------------------------------------------------------------------------------------------
+'''
+print "\033[1;33;46m start transactions/locks check\033[0m"
+
+print '''
+----------------------------------------------------------------------------------------------------------------
+1.long uncommitted transactions
+2.innodb lock waits
+3.............
+----------------------------------------------------------------------------------------------------------------
+'''
+#long uncommitted transactions
+cursor.execute("select b.host, b.user, b.db, b.time, b.COMMAND, a.trx_id, a. trx_state   \
+from information_schema.innodb_trx a left join information_schema.PROCESSLIST b on a.trx_mysql_thread_id = b.id;")
+long_transactions = cursor.fetchall()
+print "\033[1;33;44m 1: result of long uncommitted transactions\033[0m"
+if long_transactions:
+    for trx in long_transactions:
+        host = trx[0]
+        user = trx[1]
+        db_name = trx[2]
+        time = trx[3]
+        command = trx[4]
+        trx_id = trx[5]
+        trx_state = trx[6]
+        print " host: %-20s  user: %-45s db_name: %-20s time: %-20s command: %-20s trx_id: %-20s trx_state: %-20s" % \
+              (host, user, db_name, time, command, trx_id, trx_state)
+else:
+    print "no long uncommitted transactions"
+
+#innodb lock waits
+cursor.execute("SELECT wait_started,wait_age_secs,locked_table,blocking_trx_id,blocking_pid,waiting_query FROM sys.innodb_lock_waits;")
+innodb_lock_wait = cursor.fetchall()
+print "\033[1;33;44m 2: result of innodb lock waits\033[0m"
+if innodb_lock_wait:
+    for lock_w in innodb_lock_wait:
+        wait_started = lock_w[0]
+        wait_age_secs = lock_w[1]
+        locked_table = lock_w[2]
+        blocking_trx_id = lock_w[3]
+        blocking_pid = lock_w[4]
+        waiting_query = lock_w[5]
+        print " wait_started: %-20s  wait_age_secs: %-20s locked_table: %-20s blocking_trx_id: %-20s blocking_pid: %-20s waiting_query: %-20s" % \
+              (wait_started, wait_age_secs, locked_table, blocking_trx_id, blocking_pid, waiting_query)
+else:
+    print "no innodb lock waits"
+
 
 print '''
 ----------------------------------------------------------------------------------------------------------------
