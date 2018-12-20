@@ -101,8 +101,13 @@
 	  3). opend_files
 	  4). opend_tables
 	  5). Max_used_connections
-	  
 
+
+	数据库统计信息：
+	    数据库的总量  #select concat(round(sum(data_length + index_length) / 1024 / 1024, 2),'M') as total_mb from information_schema.tables where TABLE_SCHEMA='niuniu_db'
+        共有多少个表  #SELECT COUNT( * ) FROM information_schema.tables WHERE TABLE_SCHEMA = 'niuniu_db'
+        共有多少个存储过程
+        共有多少个事件
 	
 	
 感谢徐晨亮, 给了我一个很好的模板参考

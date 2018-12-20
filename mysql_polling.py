@@ -780,5 +780,29 @@ print "Max_used_connections: %s" % Max_used_connections
 print '''
 ----------------------------------------------------------------------------------------------------------------
 '''
+print "\033[1;33;46m start database info statistics check\033[0m"
+print '''
+----------------------------------------------------------------------------------------------------------------
+  1). total number of databases
+  2). how many tables
+
+----------------------------------------------------------------------------------------------------------------
+'''
+sql_all_data_statistics = "select concat(round(sum(data_length + index_length) / 1024 / 1024, 2),'M') as total_mb from information_schema.tables where TABLE_SCHEMA='niuniu_db'"
+cursor.execute(sql_all_data_statistics)
+all_data_statistics = cursor.fetchone()
+if all_data_statistics:
+    print "total number of databases: %s" % all_data_statistics
+
+sql_tables_statistics = "SELECT COUNT( * ) FROM information_schema.tables WHERE TABLE_SCHEMA = 'niuniu_db'"
+cursor.execute(sql_tables_statistics)
+tables_statistics = cursor.fetchone()
+if tables_statistics:
+    print "total number of tables: %s" % tables_statistics
+
+
+print '''
+----------------------------------------------------------------------------------------------------------------
+'''
 
 print "end time: %s" % datetime.datetime.now()
