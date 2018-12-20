@@ -328,7 +328,7 @@ if long_transactions:
         command = trx[4]
         trx_id = trx[5]
         trx_state = trx[6]
-        print " host: %-20s  user: %-45s db_name: %-20s time: %-20s command: %-20s trx_id: %-20s trx_state: %-20s" % \
+        print " host: %-20s  user: %-20s db_name: %-20s time: %-20s command: %-20s trx_id: %-20s trx_state: %-20s" % \
               (host, user, db_name, time, command, trx_id, trx_state)
 else:
     print "no long uncommitted transactions"

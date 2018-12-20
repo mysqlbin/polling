@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="b7b2d23e-98d2-49ce-abf5-70aa23db85bf" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/content.txt" afterPath="$PROJECT_DIR$/content.txt" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mysql_polling.py" afterPath="$PROJECT_DIR$/mysql_polling.py" />
     </list>
     <ignored path="polling_manager.iws" />
@@ -27,8 +26,8 @@
       <file leaf-file-name="mysql_polling.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/mysql_polling.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="446">
-              <caret line="344" column="35" selection-start-line="344" selection-start-column="35" selection-end-line="344" selection-end-column="35" />
+            <state relative-caret-position="546">
+              <caret line="330" column="40" selection-start-line="330" selection-start-column="37" selection-end-line="330" selection-end-column="40" />
               <folding>
                 <element signature="e#44#53#0" expanded="true" />
               </folding>
@@ -379,8 +378,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/mysql_polling.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="446">
-          <caret line="344" column="35" selection-start-line="344" selection-start-column="35" selection-end-line="344" selection-end-column="35" />
+        <state relative-caret-position="546">
+          <caret line="330" column="40" selection-start-line="330" selection-start-column="37" selection-end-line="330" selection-end-column="40" />
           <folding>
             <element signature="e#44#53#0" expanded="true" />
           </folding>
