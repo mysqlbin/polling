@@ -613,7 +613,7 @@ print '''
 3.innodb_buffer_pool_instances              #缓冲池实例数
 4.innodb_max_dirty_pages_pct                #达到最大脏页占比，强制进行 checkpoint, 刷新一部分的脏页到磁盘
 5.innodb_buffer_pool_pages_dirty            #脏页数据的大小
-6.innodb_buffer_pool_pages_total            #页总数
+6.innodb_buffer_pool_pages_total            #缓冲池全部页的个数
 7.innodb_buffer_pool_read_requests          #从缓冲池读取页的次数
 8.innodb_buffer_pool_read_ahead             #预读的次数
 9.innodb_buffer_pool_reads                  #从磁盘读取页的次数
