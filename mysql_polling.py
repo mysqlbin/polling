@@ -208,6 +208,7 @@ print '''
 2.redundant indexes
 3.to much columns indexes
 4.unused indexes
+5.sub_part indexes
 ----------------------------------------------------------------------------------------------------------------
 '''
 
@@ -280,6 +281,23 @@ if unused_indexes:
 else:
     print "no unused indexes"
 
+#sub_part indexes
+cursor.execute("SELECT TABLE_SCHEMA, TABLE_NAME, INDEX_NAME, COLUMN_NAME, CARDINALITY, SUB_PART  \
+FROM INFORMATION_SCHEMA.STATISTICS WHERE SUB_PART > 10 ORDER BY SUB_PART DESC;")
+sub_part_indexes = cursor.fetchall()
+print "\033[1;33;44m 5: result of sub_part indexes\033[0m"
+if sub_part_indexes:
+    for index in sub_part_indexes:
+        table_schema = index[0]
+        table_name = index[1]
+        index_name = index[2]
+        column_name = index[3]
+        cardinality = index[4]
+        sub_part = index[5]
+        print " table_schema: %-20s  table_name: %-45s index_name: %-20s column_name: %-20s cardinality: %-20s sub_part: %-20s" % \
+              (table_schema, table_name, index_name, column_name, cardinality, sub_part)
+else:
+    print "no sub_part indexes"
 
 time.sleep(1)
 

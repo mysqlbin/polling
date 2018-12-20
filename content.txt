@@ -11,14 +11,15 @@
 		大字段表
 		字段长度过大的表
 		自增ID占比
-		
+
 		
 	索引检查
 		无主键/索引表
 		重复索引
 		字段过多索引
 		未使用的索引
-		
+		查看哪些索引采用部分索引（前缀索引）
+
 	参数检查(variables)
 		1.version
 
@@ -91,11 +92,18 @@
 	  4). opend_tables
 	  5). Max_used_connections
 	  
+	事务/锁相关:
+	 长时间未提交的事务
+	 select b.host, b.user, b.db, b.time, b.COMMAND, a.trx_id, a. trx_state from information_schema.innodb_trx a left join information_schema.PROCESSLIST b on a.trx_mysql_thread_id = b.id;
+	 表锁
+	 行锁等待
+	 SELECT * FROM sys.innodb_lock_waits
+	 死锁
+	 MDL锁
 	
 	
 	
 	
 	
 	
-	
-感谢徐晨亮, 给了我一个很好的参考
+感谢徐晨亮, 给了我一个很好的模板参考
