@@ -50,7 +50,11 @@
 		5.innodb_log_buffer_size
 
 		# change buffer
-		1.innodb_change_buffer_max_size
+		1.innodb_change_buffer_max_size #change buffer 在 buffer pool 缓冲池中的最大占比，默认为25%，最大可以设置为50%
+		  调整依据：
+		    a).如果系统中有严重的insert、update并且还有活跃的delete时，就增大max_size；
+　　        b).针对不更改数据的纯报表系统，可以减小该参数值。
+
 		2.innodb_change_buffering
 
 		# Other
