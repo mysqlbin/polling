@@ -42,7 +42,9 @@
 		6.innodb_io_capacity
 		7.innodb_lock_wait_timeout
 		8.innodb_thread_concurrency
-
+        9.innodb_fast_shutdown
+        10.innodb_force_recovery
+        
 		# Redo
 		1.innodb_flush_log_at_trx_commit
 		2.innodb_log_file_size
