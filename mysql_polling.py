@@ -633,6 +633,7 @@ print '''
 12.Innodb_buffer_pool_pages_free            #没有用到的page数量（空闲的page数量）
 13.Innodb_buffer_pool_wait_free             #innodb buffer pool不够用了等待把热点数据或脏页的buffer pool释放次数，该参数大于0比较严重
 14.判断 InnoDB buffer pool是否使用紧张（不够用）：查看 Innodb_buffer_pool_wait_free 的值是否大于0， 大于0说明紧张（不够用）
+15.Innodb_buffer_pool_pages_data 分配出去，正在被使用page的数量，包括脏页；单位是Page
 ----------------------------------------------------------------------------------------------------------------
 '''
 
@@ -727,8 +728,16 @@ data = cursor.fetchone()
 innodb_buffer_pool_wait_free = data[1]
 print "Innodb_buffer_pool_wait_free: %s" % innodb_buffer_pool_wait_free
 
+#14.判断 InnoDB buffer pool是否使用紧张(不够用)
 if int(innodb_buffer_pool_wait_free) == 0:
     print '注意：InnoDB buffer pool可能不够用了，需要详细检查并处理，目前需要等待的次数 %s' % int(innodb_buffer_pool_wait_free) + ' 次'
+
+#15.Innodb_buffer_pool_pages_free
+sql_innodb_buffer_pool_pages_data = "show global status like 'Innodb_buffer_pool_pages_data'"
+cursor.execute(sql_innodb_buffer_pool_pages_data)
+data = cursor.fetchone()
+innodb_buffer_pool_pages_data = data[1]
+print "innodb_buffer_pool_pages_data: %s" % innodb_buffer_pool_pages_data
 
 
 
