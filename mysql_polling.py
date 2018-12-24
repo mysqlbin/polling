@@ -374,8 +374,9 @@ print '''
 # Redo
 1.innodb_flush_log_at_trx_commit
 2.innodb_log_file_size
-4.innodb_log_files_in_group
-5.innodb_log_buffer_size
+3.innodb_log_files_in_group
+4.innodb_log_buffer_size
+5.Innodb_log_waits  #因 log buffer不足导致等待的次数
 
 # change buffer
 1.innodb_change_buffer_max_size
@@ -491,6 +492,16 @@ cursor.execute(sql_innodb_log_buffer_size)
 data = cursor.fetchone()
 innodb_log_buffer_size = int(data[1])/1024/1024
 print "innodb_log_buffer_size: %f M" % innodb_log_buffer_size
+
+#5.Innodb_log_waits
+sql_innodb_log_waits = "show global status like 'Innodb_log_waits'"
+cursor.execute(sql_innodb_log_waits)
+data = cursor.fetchone()
+log_waits = data[1]
+print "Innodb_log_waits: %s" % log_waits
+if int(log_waits) > 0:
+    print '注意：因日志缓存太小而必须等待其被写入所造成的等待数 %s' % int(log_waits) + ' 次'
+
 
 #Change buffer
 #1.innodb_change_buffer_max_size
@@ -613,13 +624,15 @@ print '''
 3.innodb_buffer_pool_instances              #缓冲池实例数
 4.innodb_max_dirty_pages_pct                #达到最大脏页占比，强制进行 checkpoint, 刷新一部分的脏页到磁盘
 5.innodb_buffer_pool_pages_dirty            #脏页数据的大小
-6.innodb_buffer_pool_pages_total            #缓冲池全部页的个数
+6.innodb_buffer_pool_pages_total            #缓冲池全部页的个数（page总数）
 7.innodb_buffer_pool_read_requests          #从缓冲池读取页的次数
 8.innodb_buffer_pool_read_ahead             #预读的次数
 9.innodb_buffer_pool_reads                  #从磁盘读取页的次数
 10.计算脏页占比  innodb_buffer_pool_pages_dirty/innodb_buffer_pool_pages_total
 11.计算InnoDB buffer pool 命中率 innodb_buffer_pool_read_requests/(innodb_buffer_pool_read_requests + innodb_buffer_pool_read_ahead + innodb_buffer_pool_reads)
-
+12.Innodb_buffer_pool_pages_free            #没有用到的page数量（空闲的page数量）
+13.Innodb_buffer_pool_wait_free             #innodb buffer pool不够用了等待把热点数据或脏页的buffer pool释放次数，该参数大于0比较严重
+14.判断 InnoDB buffer pool是否使用紧张（不够用）：查看 Innodb_buffer_pool_wait_free 的值是否大于0， 大于0说明紧张（不够用）
 ----------------------------------------------------------------------------------------------------------------
 '''
 
@@ -690,15 +703,33 @@ data = cursor.fetchone()
 innodb_buffer_pool_reads = data[1]
 print "innodb_buffer_pool_reads: %s" % innodb_buffer_pool_reads
 
-#计算脏页占比  innodb_buffer_pool_pages_dirty/innodb_buffer_pool_pages_total
+#10.计算脏页占比  innodb_buffer_pool_pages_dirty/innodb_buffer_pool_pages_total
 dirty_page = round(float(innodb_buffer_pool_pages_dirty)/int(innodb_buffer_pool_pages_total),4)
 dirty_page_percent = "%.2f%%" % (dirty_page*100)
 print "脏页占比: %s" % dirty_page_percent
 
-#计算InnoDB buffer pool 命中率 innodb_buffer_pool_read_requests/(innodb_buffer_pool_read_requests + innodb_buffer_pool_read_ahead + innodb_buffer_pool_reads)
+#11.计算InnoDB buffer pool 命中率 innodb_buffer_pool_read_requests/(innodb_buffer_pool_read_requests + innodb_buffer_pool_read_ahead + innodb_buffer_pool_reads)
 rate = round(float(innodb_buffer_pool_read_requests)/(int(innodb_buffer_pool_read_requests) + int(innodb_buffer_pool_read_ahead) + int(innodb_buffer_pool_reads)), 4)
 rate_percent = "%.2f%%" % (rate*100)
 print "InnoDB buffer pool 命中率: %s" %  rate_percent
+
+#12.Innodb_buffer_pool_pages_free
+sql_innodb_buffer_pool_pages_free = "show global status like 'Innodb_buffer_pool_pages_free'"
+cursor.execute(sql_innodb_buffer_pool_pages_free)
+data = cursor.fetchone()
+innodb_buffer_pool_pages_free = data[1]
+print "Innodb_buffer_pool_pages_free: %s" % innodb_buffer_pool_pages_free
+
+#13.Innodb_buffer_pool_wait_free
+sql_innodb_buffer_pool_wait_free = "show global status like 'Innodb_buffer_pool_wait_free'"
+cursor.execute(sql_innodb_buffer_pool_wait_free)
+data = cursor.fetchone()
+innodb_buffer_pool_wait_free = data[1]
+print "Innodb_buffer_pool_wait_free: %s" % innodb_buffer_pool_wait_free
+
+if int(innodb_buffer_pool_wait_free) == 0:
+    print '注意：InnoDB buffer pool可能不够用了，需要详细检查并处理，目前需要等待的次数 %s' % int(innodb_buffer_pool_wait_free) + ' 次'
+
 
 
 print '''

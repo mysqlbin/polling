@@ -44,12 +44,13 @@
 		8.innodb_thread_concurrency
         9.innodb_fast_shutdown
         10.innodb_force_recovery
-        
+
 		# Redo
 		1.innodb_flush_log_at_trx_commit
 		2.innodb_log_file_size
-		4.innodb_log_files_in_group
-		5.innodb_log_buffer_size
+		3.innodb_log_files_in_group
+		4.innodb_log_buffer_size
+        5.Innodb_log_waits  #因 log buffer不足导致等待的次数; 因日志缓存太小而必须等待其被写入所造成的等待数。单位是次。
 
 		# change buffer
 		1.innodb_change_buffer_max_size #change buffer 在 buffer pool 缓冲池中的最大占比，默认为25%，最大可以设置为50%
@@ -74,7 +75,7 @@
 		12.默认存储引擎
 		13.max_execution_time
 		
-	InnoDB buffer pool检查:
+	InnoDB buffer pool的使用情况:
 		1.innodb_buffer_pool_size                   #缓冲池大小
 		2.innodb_lru_scan_depth                     #控制LRU列表中可用页的数量，默认值为1024
 		3.innodb_buffer_pool_instances              #缓冲池实例数
@@ -86,13 +87,16 @@
 		9.innodb_buffer_pool_reads                  #从磁盘读取页的次数
 		10.计算脏页占比  innodb_buffer_pool_pages_dirty/innodb_buffer_pool_pages_total
 		11.计算InnoDB buffer pool 命中率 innodb_buffer_pool_read_requests/(innodb_buffer_pool_read_requests + innodb_buffer_pool_read_ahead + innodb_buffer_pool_reads)
-	
-	
+	    12.Innodb_buffer_pool_pages_free
+	    13.Innodb_buffer_pool_wait_free
+	    14. 判断 InnoDB buffer pool是否使用紧张(不够用)：查看 Innodb_buffer_pool_wait_free 的值是否大于0， 大于0说明紧张
+
+
 	状态值:
 	  1).当前并发连接数:
-		Threads_connected  表示当前所有已经连接的线程数
+		Threads_connected  并发连接数- 表示当前所有已经连接的线程数
 		Threads_created    表示当前所有已经创建的线程数
-		Threads_running    表示当前正在运行的线程数
+		Threads_running    并发活跃线程数- 表示当前正在运行的线程数
 		
 	  2).行锁等待:
 		Innodb_row_lock_current_waits  表示当前发生行锁等待的次数
