@@ -2,7 +2,12 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="b7b2d23e-98d2-49ce-abf5-70aa23db85bf" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mysql_polling.py" afterPath="$PROJECT_DIR$/mysql_polling.py" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/1.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/config.py" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/innodb_buffer_pool.py" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/status.py" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/variables.py" afterPath="" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="polling_manager.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -23,11 +28,31 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="mysql_polling.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/mysql_polling.py">
+      <file leaf-file-name="content.txt" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/content.txt">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="404">
-              <caret line="180" column="40" selection-start-line="180" selection-start-column="16" selection-end-line="182" selection-end-column="92" />
+            <state relative-caret-position="563">
+              <caret line="118" column="165" selection-start-line="118" selection-start-column="17" selection-end-line="118" selection-end-column="165" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="replication-consitent-check.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/replication-consitent-check.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="150">
+              <caret line="6" column="0" selection-start-line="6" selection-start-column="0" selection-end-line="6" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="tps-qps.py" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/tps-qps.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="950">
+              <caret line="38" column="0" selection-start-line="38" selection-start-column="0" selection-end-line="38" selection-end-column="0" />
               <folding>
                 <element signature="e#44#53#0" expanded="true" />
               </folding>
@@ -35,31 +60,33 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="status.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/status.py">
+      <file leaf-file-name="mysql_polling.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/mysql_polling.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="225">
-              <caret line="64" column="0" selection-start-line="64" selection-start-column="0" selection-end-line="68" selection-end-column="39" />
+            <state relative-caret-position="421">
+              <caret line="712" column="57" selection-start-line="712" selection-start-column="54" selection-end-line="712" selection-end-column="57" />
+              <folding>
+                <element signature="e#44#53#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="os_polling.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/os_polling.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="293">
+              <caret line="79" column="0" selection-start-line="79" selection-start-column="0" selection-end-line="79" selection-end-column="0" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="variables.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/variables.py">
+      <file leaf-file-name="replication_monitor.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/replication_monitor.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="375">
-              <caret line="75" column="0" selection-start-line="75" selection-start-column="0" selection-end-line="75" selection-end-column="15" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="content.txt" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/content.txt">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="446">
-              <caret line="89" column="40" selection-start-line="89" selection-start-column="11" selection-end-line="89" selection-end-column="40" />
+            <state relative-caret-position="-325">
+              <caret line="7" column="51" selection-start-line="7" selection-start-column="51" selection-end-line="7" selection-end-column="51" />
               <folding />
             </state>
           </provider>
@@ -79,7 +106,10 @@
         <option value="$PROJECT_DIR$/os_polling.py" />
         <option value="$PROJECT_DIR$/../mysql_polling_online.py" />
         <option value="$PROJECT_DIR$/content.txt" />
+        <option value="$PROJECT_DIR$/replication_monitor.py" />
+        <option value="$PROJECT_DIR$/replication-consitent-check.py" />
         <option value="$PROJECT_DIR$/mysql_polling.py" />
+        <option value="$PROJECT_DIR$/tps-qps.py" />
       </list>
     </option>
   </component>
@@ -328,7 +358,9 @@
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="XDebuggerManager">
-    <breakpoint-manager />
+    <breakpoint-manager>
+      <option name="time" value="1" />
+    </breakpoint-manager>
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
@@ -352,14 +384,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="120">
           <caret line="348" column="17" selection-start-line="348" selection-start-column="17" selection-end-line="348" selection-end-column="17" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/os_polling.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="443">
-          <caret line="79" column="0" selection-start-line="79" selection-start-column="0" selection-end-line="79" selection-end-column="0" />
           <folding />
         </state>
       </provider>
@@ -388,21 +412,55 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/content.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="563">
+          <caret line="118" column="165" selection-start-line="118" selection-start-column="17" selection-end-line="118" selection-end-column="165" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/os_polling.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="293">
+          <caret line="79" column="0" selection-start-line="79" selection-start-column="0" selection-end-line="79" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/replication_monitor.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-325">
+          <caret line="7" column="51" selection-start-line="7" selection-start-column="51" selection-end-line="7" selection-end-column="51" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/replication-consitent-check.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="150">
+          <caret line="6" column="0" selection-start-line="6" selection-start-column="0" selection-end-line="6" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/mysql_polling.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="404">
-          <caret line="180" column="40" selection-start-line="180" selection-start-column="16" selection-end-line="182" selection-end-column="92" />
+        <state relative-caret-position="421">
+          <caret line="712" column="57" selection-start-line="712" selection-start-column="54" selection-end-line="712" selection-end-column="57" />
           <folding>
             <element signature="e#44#53#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/content.txt">
+    <entry file="file://$PROJECT_DIR$/tps-qps.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="446">
-          <caret line="89" column="40" selection-start-line="89" selection-start-column="11" selection-end-line="89" selection-end-column="40" />
-          <folding />
+        <state relative-caret-position="950">
+          <caret line="38" column="0" selection-start-line="38" selection-start-column="0" selection-end-line="38" selection-end-column="0" />
+          <folding>
+            <element signature="e#44#53#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
