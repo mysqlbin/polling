@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="b7b2d23e-98d2-49ce-abf5-70aa23db85bf" name="Default" comment="" />
+    <list default="true" id="b7b2d23e-98d2-49ce-abf5-70aa23db85bf" name="Default" comment="">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/install_mysql.py" afterPath="$PROJECT_DIR$/install_mysql.py" />
+    </list>
     <ignored path="polling_manager.iws" />
     <ignored path=".idea/workspace.xml" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -68,11 +70,31 @@
       <file leaf-file-name="install_mysql.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/install_mysql.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="200">
-              <caret line="8" column="33" selection-start-line="8" selection-start-column="17" selection-end-line="8" selection-end-column="33" />
+            <state relative-caret-position="675">
+              <caret line="54" column="27" selection-start-line="54" selection-start-column="18" selection-end-line="54" selection-end-column="27" />
               <folding>
                 <element signature="e#40#57#0" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="nt.py" pinned="false" current-in-tab="false">
+        <entry file="file://$USER_HOME$/.PyCharm2016.1/system/python_stubs/884504192/nt.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="306">
+              <caret line="239" column="4" selection-start-line="239" selection-start-column="4" selection-end-line="239" selection-end-column="4" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="os.py" pinned="false" current-in-tab="false">
+        <entry file="file://C:/Anaconda2/Lib/os.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="306">
+              <caret line="135" column="4" selection-start-line="135" selection-start-column="4" selection-end-line="135" selection-end-column="4" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -82,16 +104,6 @@
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="631">
               <caret line="469" column="38" selection-start-line="469" selection-start-column="38" selection-end-line="469" selection-end-column="38" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="test.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/test.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="250">
-              <caret line="10" column="7" selection-start-line="10" selection-start-column="4" selection-end-line="10" selection-end-column="7" />
               <folding />
             </state>
           </provider>
@@ -513,14 +525,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://C:/Anaconda2/Lib/os.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/replication-consitent-check.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="25">
@@ -555,10 +559,26 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://C:/Anaconda2/Lib/os.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="306">
+          <caret line="135" column="4" selection-start-line="135" selection-start-column="4" selection-end-line="135" selection-end-column="4" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/.PyCharm2016.1/system/python_stubs/884504192/nt.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="306">
+          <caret line="239" column="4" selection-start-line="239" selection-start-column="4" selection-end-line="239" selection-end-column="4" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/install_mysql.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="200">
-          <caret line="8" column="33" selection-start-line="8" selection-start-column="17" selection-end-line="8" selection-end-column="33" />
+        <state relative-caret-position="675">
+          <caret line="54" column="27" selection-start-line="54" selection-start-column="18" selection-end-line="54" selection-end-column="27" />
           <folding>
             <element signature="e#40#57#0" expanded="true" />
           </folding>
