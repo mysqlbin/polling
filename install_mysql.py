@@ -6,12 +6,21 @@ import os
 import shutil # 复制文件
 
 
+#
+# 设计用途：
+#   基于二进制安装包，快速安装3306实例
+# 基本用法：
+#   上传 my_3306.cnf 文件到 /etc 目录下
+#   上传MySQL的压缩包文件到 /usr/local 目录下
+
+
 cnf_file_path = '/etc/my_3306.cnf'
 data_path = '/data/mysql/3306/'
+error_path = '/data/mysql/3306/data/error.log'
 tar_path = '/usr/local/mysql-5.7.24-linux-glibc2.12-x86_64.tar.gz'
 
 
-# 1. 创建MySQL用户和用户组,并返回uid,gid
+# 1. 创建MySQL用户和用户组
 
 def add_mysql_user():
     try:
@@ -31,15 +40,16 @@ def add_mysql_user():
     except Exception:
         print('create user and group mysql across a error,please check')
 
-
+# 2. 返回 MySQL用户和用户组 的uid, gid
 def get_uid_gid():
     cmd_getuid = 'id -u mysql'
     cmd_getgid = 'id -g mysql'
     # os.popen输出的结果并不是char类型，需要read()出来，并截取换行符
     uid = os.popen(cmd_getuid).read().strip('\n')
     gid = os.popen(cmd_getgid).read().strip('\n')
-    #print('uid:', uid, 'gid:', gid)
-    return (uid, gid)
+    print('uid:', uid, 'gid:', gid)
+    # return (uid, gid)
+
 
 # 2. 解压下载的二进制安装包
 def untar(tar_path):
@@ -55,7 +65,8 @@ def untar(tar_path):
         else:
             raise Exception
     except Exception:
-        print('exec untar across a error')  # 如果程序走到这里，应该要结束掉
+        print('Exec untar across a error, Please check the zip file')
+        exit()
 
 # 3. 把mysql base dir 归属到mysql用户下
 def base_dir_chown():
@@ -81,23 +92,20 @@ def prepare(port):
         print (mysql_data_dir)
         (status, output) = subprocess.getstatusoutput(mysql_data_dir)
         if status == 0:
-            print('chown mysql data dir success')
+            print('mkdir data dir and chown mysql data dir success')
         else:
             raise Exception
-
     except OSError:
         print('create dir error,please check')
-    return '/data/mysql/{}'
 
 
-# 5. 初始化实例并读取临时密码
+# 5. 初始化实例
 def initialize_instance(port):
     cmd = '/usr/local/mysql/bin/mysqld --defaults-file=/data/mysql/{}/my_3306.cnf --initialize'.format(port)
     (status, output) = subprocess.getstatusoutput(cmd)
-    print('status:', status, 'detail:', output)
+    # print('status:', status, 'detail:', output)
     if status == 0:
         print('Initialize finished,now read temporary password')
-
 
 # 6. 接收指定的my.cnf文件，并复制到相关数据文件夹下
 # TODO:自动询问关键参数，并生成my_$port.cnf
@@ -111,21 +119,52 @@ def cp_cnf(cnf_file_path, data_path):
     else:
         print('file does`s not exist')
 
+# 7. 提取错误日志中的密码
+def get_error_password(error_path):
+
+    # cat /data/mysql/3306/data/error.log |grep password
+    cmd = 'cat {} |grep password'.format(error_path)
+    (status, output) = subprocess.getstatusoutput(cmd)
+    # print('status:', status, 'detail:', output)
+    if status == 0:
+        lists = output.split()
+        print('read temporary password success, password: %s' % (lists[-1]))
+        print('这里提示登录方式： mysql -uroot -p')
+
+# 8. 启动数据库初始化
+def start_mysql_init():
+    #cp /usr/local/mysql/support-files/mysql.server /etc/init.d/mysql
+    #/etc/init.d/mysql start OR /usr/local/mysql/bin/mysqld --defaults-file=/etc/my.cnf &(生成.sock文件)
+    cmd = 'cp /usr/local/mysql/support-files/mysql.server /etc/init.d/mysql'
+    (status, output) = subprocess.getstatusoutput(cmd)
+    if status == 0:
+        print('cp support-files/mysql.server to /etc/init.d/mysql success')
+
+
+def start_mysql_server():
+    #cmd = '/etc/init.d/mysql start'
+    cmd = '/usr/local/mysql/bin/mysqld --defaults-file=/etc/my.cnf &'
+    (status, output) = subprocess.getstatusoutput(cmd)
+    if status == 0:
+        print('mysql server start success')
+    else:
+        print(output)
+
+        #Starting MySQL.Logging to '/usr/local/mysql/data/mgr01.err'.
+        #ERROR! The server quit without updating PID file (/usr/local/mysql/data/mgr01.pid).
+        #说明 需要指定 my.cnf 配置文件
 
 def main():
 
     add_mysql_user()
     untar(tar_path)
     base_dir_chown()
-    tup = get_uid_gid()
-    print (tup[0])
-    print (tup[1])
-
     prepare(3306)
-
     cp_cnf(cnf_file_path, data_path)
-
     initialize_instance(3306)
+    get_error_password(error_path)
+    start_mysql_init()
+    start_mysql_server()
 
 if __name__ == '__main__':
     main()

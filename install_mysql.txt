@@ -1,0 +1,7 @@
+
+
+cat error.log |grep root@localhost
+text_list = row.split()  #根据空格拆分
+
+
+
