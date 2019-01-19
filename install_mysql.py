@@ -42,39 +42,55 @@ def get_uid_gid():
     return (uid, gid)
 
 # 2. 解压下载的二进制安装包
-# TODO:询问是否创建超链接为mysql
 def untar(tar_path):
     try:
-        tar_path = tar_path
-        bin_path = '/usr/local/'
-        untar_cmd = 'tar -zxf {} -C {}'.format(tar_path, bin_path)
+        #tar_path = tar_path
+        #bin_path = '/usr/local/'
+        # untar_cmd = 'tar -zxf {} -C {}'.format(tar_path, bin_path)
+        untar_cmd = 'mkdir /usr/local/mysql && tar -xzvf {} -C /usr/local/mysql --strip-components 1'.format(tar_path)
+        print(untar_cmd)
         (status, output) = subprocess.getstatusoutput(untar_cmd)
         if status == 0:
             print('untar finished')
         else:
             raise Exception
     except Exception:
-        print('exec untar across a error')
+        print('exec untar across a error')  # 如果程序走到这里，应该要结束掉
 
+# 3. 把mysql base dir 归属到mysql用户下
+def base_dir_chown():
+    try:
+        mysql_base_dir = 'chown -R mysql:mysql /usr/local/mysql/'
+        (status, output) = subprocess.getstatusoutput(mysql_base_dir)
+        if status == 0:
+            print('chown mysql base dir success')
+        else:
+            raise Exception
+    except Exception:
+         print('chown mysql base dir error')
 
+# 4. 创建数据文件夹,并归属到mysql用户下
 
-# 3. 创建数据文件夹,并归属到mysql用户下
-
-def prepare(port, uid, gid):
+def prepare(port):
     try:
         os.makedirs('/data/mysql/{}/data'.format(port))
         os.mkdir('/data/mysql/{}/logs'.format(port))
         os.mkdir('/data/mysql/{}/tmp'.format(port))
-        os.chown('/data/mysql/{}/'.format(port), uid, gid)
-        os.chown('/data/mysql/{}/data'.format(port), uid, gid)
-        os.chown('/data/mysql/{}/logs'.format(port), uid, gid)
-        os.chown('/data/mysql/{}/tmp'.format(port), uid, gid)
+
+        mysql_data_dir = 'chown -R mysql:mysql /data/mysql/{}/'.format(port)
+        print (mysql_data_dir)
+        (status, output) = subprocess.getstatusoutput(mysql_data_dir)
+        if status == 0:
+            print('chown mysql data dir success')
+        else:
+            raise Exception
+
     except OSError:
         print('create dir error,please check')
     return '/data/mysql/{}'
 
 
-# 4. 初始化实例并读取临时密码
+# 5. 初始化实例并读取临时密码
 def initialize_instance(port):
     cmd = '/usr/local/mysql/bin/mysqld --defaults-file=/data/mysql/{}/my_3306.cnf --initialize'.format(port)
     (status, output) = subprocess.getstatusoutput(cmd)
@@ -83,7 +99,7 @@ def initialize_instance(port):
         print('Initialize finished,now read temporary password')
 
 
-# 5. 接收指定的my.cnf文件，并复制到相关数据文件夹下
+# 6. 接收指定的my.cnf文件，并复制到相关数据文件夹下
 # TODO:自动询问关键参数，并生成my_$port.cnf
 
 def cp_cnf(cnf_file_path, data_path):
@@ -100,11 +116,12 @@ def main():
 
     add_mysql_user()
     untar(tar_path)
+    base_dir_chown()
     tup = get_uid_gid()
     print (tup[0])
     print (tup[1])
 
-    prepare(3306, int(tup[0]), int(tup[1]))
+    prepare(3306)
 
     cp_cnf(cnf_file_path, data_path)
 
