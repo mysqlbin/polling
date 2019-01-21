@@ -6,20 +6,31 @@ import os
 import shutil # 复制文件
 from progressbar import *
 
-
 #
 # 设计用途：
 #   基于二进制安装包，快速安装3306实例
 # 基本用法：
 #   上传 my_3306.cnf 文件到 /etc 目录下
-#   上传MySQL的压缩包文件到 /usr/local 目录下
-
 
 cnf_file_path = '/etc/my_3306.cnf'
 data_path = '/data/mysql/3306/'
 error_path = '/data/mysql/3306/data/error.log'
-tar_path = '/usr/local/mysql-5.7.24-linux-glibc2.12-x86_64.tar.gz'
 
+version_http_dict = {
+    'mysql-5_7_20': 'https://dev.mysql.com/Downloads/MySQL-5.7/mysql-5.7.20-linux-glibc2.12-x86_64.tar.gz',
+    'mysql-5_7_21': 'https://dev.mysql.com/Downloads/MySQL-5.7/mysql-5.7.21-linux-glibc2.12-x86_64.tar.gz',
+    'mysql-5_7_22': 'https://dev.mysql.com/Downloads/MySQL-5.7/mysql-5.7.22-linux-glibc2.12-x86_64.tar.gz',
+    'mysql-5_7_23': 'https://dev.mysql.com/Downloads/MySQL-5.7/mysql-5.7.23-linux-glibc2.12-x86_64.tar.gz',
+    'mysql-5_7_24': 'https://dev.mysql.com/Downloads/MySQL-5.7/mysql-5.7.24-linux-glibc2.12-x86_64.tar.gz',
+}
+
+version_has_download_dict = {
+    'mysql-5_7_20': '/usr/local/mysql-5.7.20-linux-glibc2.12-x86_64.tar.gz',
+    'mysql-5_7_21': '/usr/local/mysql-5.7.21-linux-glibc2.12-x86_64.tar.gz',
+    'mysql-5_7_22': '/usr/local/mysql-5.7.22-linux-glibc2.12-x86_64.tar.gz',
+    'mysql-5_7_23': '/usr/local/mysql-5.7.23-linux-glibc2.12-x86_64.tar.gz',
+    'mysql-5_7_24': '/usr/local/mysql-5.7.24-linux-glibc2.12-x86_64.tar.gz',
+}
 
 # 1. 创建MySQL用户和用户组
 
@@ -51,14 +62,61 @@ def get_uid_gid():
     print('uid:', uid, 'gid:', gid)
     # return (uid, gid)
 
+# 3. 判断要选择的版本
 
-# 2. 解压下载的二进制安装包
-def untar(tar_path):
+def input_get_version():
+
+    print('''
+You have 5 options for you Database version install.
+1: Install MySQL 5.7.20
+2: Install MySQL 5.7.21
+3: Install MySQL 5.7.22
+4: Install MySQL 5.7.23
+5: Install MySQL 5.7.24
+    ''')
+
+    version = int(input("Enter your choice (1, 2, 3, 4, 5): "))  #这里再加一个 y/n
+    if version == 1:
+        version = 'mysql-5_7_20'
+    elif version == 2:
+        version = 'mysql-5_7_21'
+    elif version == 3:
+        version = 'mysql-5_7_22'
+    elif version == 4:
+        version = 'mysql-5_7_23'
+    elif version == 5:
+        version = 'mysql-5_7_24'
+    else:
+        version = 'mysql-5_7_24'
+    return version
+    ### 退出提示
+    #input("点击 enter 键退出")
+
+# 4. 下载的二进制安装包
+
+def wget_download():
     try:
-        #tar_path = tar_path
-        #bin_path = '/usr/local/'
-        # untar_cmd = 'tar -zxf {} -C {}'.format(tar_path, bin_path)
-        untar_cmd = 'mkdir /usr/local/mysql && tar -xzvf {} -C /usr/local/mysql --strip-components 1'.format(tar_path)
+        version_addr = input_get_version()
+        print(version_http_dict[version_addr])
+        download_mysql_cmd = 'wget -P {} {}'.format('/usr/local/', version_http_dict[version_addr])
+        (status, output) = subprocess.getstatusoutput(download_mysql_cmd)
+        if status == 0:
+            print(output)
+            print('wget mysql finished')
+        else:
+            print(output)
+            raise Exception
+    except Exception:
+        print('wget mysql error, Please check the http addr')
+        exit()
+
+# 5. 解压下载的二进制安装包
+
+def untar():
+
+    try:
+        # version_addr = input_get_version()
+        untar_cmd = 'mkdir /usr/local/mysql && tar -xzvf {} -C /usr/local/mysql --strip-components 1'.format(version_has_download_dict[5])
         print ('start tar -xzvf mysql tar gz..........')
         pbar = ProgressBar().start()
         (status, output) = subprocess.getstatusoutput(untar_cmd)
@@ -71,7 +129,7 @@ def untar(tar_path):
         print('Exec untar across a error, Please check the zip file')
         exit()
 
-# 3. 把mysql base dir 归属到mysql用户下
+# 6. 把mysql base dir 归属到mysql用户下
 def base_dir_chown():
     try:
         mysql_base_dir = 'chown -R mysql:mysql /usr/local/mysql/'
@@ -83,7 +141,7 @@ def base_dir_chown():
     except Exception:
          print('chown mysql base dir error')
 
-# 4. 创建数据文件夹,并归属到mysql用户下
+# 7. 创建数据文件夹,并归属到mysql用户下
 
 def prepare(port):
     try:
@@ -102,7 +160,7 @@ def prepare(port):
         print('create dir error,please check')
 
 
-# 5. 初始化实例
+# 8. 初始化实例
 def initialize_instance(port):
 
     pbar = ProgressBar().start()
@@ -113,7 +171,7 @@ def initialize_instance(port):
         pbar.finish()
         print('Initialize finished,now read mysql login temporary password')
 
-# 6. 接收指定的my.cnf文件，并复制到相关数据文件夹下
+# 9. 接收指定的my.cnf文件，并复制到相关数据文件夹下
 # TODO:自动询问关键参数，并生成my_$port.cnf
 
 def cp_cnf(cnf_file_path, data_path):
@@ -125,7 +183,7 @@ def cp_cnf(cnf_file_path, data_path):
     else:
         print('file does`s not exist')
 
-# 7. 提取错误日志中的密码
+# 10. 提取错误日志中的密码
 def get_error_password(error_path):
 
     # cat /data/mysql/3306/data/error.log |grep password
@@ -138,7 +196,7 @@ def get_error_password(error_path):
         print('\033[1;33;44m password: \033[0m %s' % (lists[-1]))
 
 
-# 8. 启动数据库初始化
+# 11. 启动数据库初始化
 def start_mysql_init():
     #cp /usr/local/mysql/support-files/mysql.server /etc/init.d/mysql
     #/etc/init.d/mysql start OR /usr/local/mysql/bin/mysqld --defaults-file=/etc/my.cnf &(生成.sock文件)
@@ -147,7 +205,7 @@ def start_mysql_init():
     if status == 0:
         print('cp support-files/mysql.server to /etc/init.d/mysql success')
 
-
+# 12. 启动数据库初始化
 def start_mysql_server():
     #cmd = '/etc/init.d/mysql start'
 
@@ -159,7 +217,7 @@ def start_mysql_server():
         print('\033[1;33;44m mysql server start success \033[0m')
     else:
         print(output)
-        
+
         #Starting MySQL.Logging to '/usr/local/mysql/data/mgr01.err'.
         #ERROR! The server quit without updating PID file (/usr/local/mysql/data/mgr01.pid).
         #说明 需要指定 my.cnf 配置文件
@@ -171,7 +229,9 @@ def main():
     print("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++")
 
     add_mysql_user()
-    untar(tar_path)
+    # input_get_version()
+    wget_download()
+    untar()
     base_dir_chown()
     prepare(3306)
     cp_cnf(cnf_file_path, data_path)
