@@ -4,6 +4,7 @@
 import subprocess
 import os
 import shutil # 复制文件
+from progressbar import *
 
 
 #
@@ -58,9 +59,11 @@ def untar(tar_path):
         #bin_path = '/usr/local/'
         # untar_cmd = 'tar -zxf {} -C {}'.format(tar_path, bin_path)
         untar_cmd = 'mkdir /usr/local/mysql && tar -xzvf {} -C /usr/local/mysql --strip-components 1'.format(tar_path)
-        print(untar_cmd)
+        print ('start tar -xzvf mysql tar gz..........')
+        pbar = ProgressBar().start()
         (status, output) = subprocess.getstatusoutput(untar_cmd)
         if status == 0:
+            pbar.finish()
             print('untar finished')
         else:
             raise Exception
@@ -101,11 +104,14 @@ def prepare(port):
 
 # 5. 初始化实例
 def initialize_instance(port):
+
+    pbar = ProgressBar().start()
     cmd = '/usr/local/mysql/bin/mysqld --defaults-file=/data/mysql/{}/my_3306.cnf --initialize'.format(port)
     (status, output) = subprocess.getstatusoutput(cmd)
     # print('status:', status, 'detail:', output)
     if status == 0:
-        print('Initialize finished,now read temporary password')
+        pbar.finish()
+        print('Initialize finished,now read mysql login temporary password')
 
 # 6. 接收指定的my.cnf文件，并复制到相关数据文件夹下
 # TODO:自动询问关键参数，并生成my_$port.cnf
@@ -128,8 +134,9 @@ def get_error_password(error_path):
     # print('status:', status, 'detail:', output)
     if status == 0:
         lists = output.split()
-        print('read temporary password success, password: %s' % (lists[-1]))
-        print('这里提示登录方式： mysql -uroot -p')
+        print('\033[1;33;44m login method：\033[0m mysql -S /data/mysql/3306/data/3306.sock -p')
+        print('\033[1;33;44m password: \033[0m %s' % (lists[-1]))
+
 
 # 8. 启动数据库初始化
 def start_mysql_init():
@@ -143,18 +150,25 @@ def start_mysql_init():
 
 def start_mysql_server():
     #cmd = '/etc/init.d/mysql start'
-    cmd = '/usr/local/mysql/bin/mysqld --defaults-file=/etc/my.cnf &'
+
+    pbar = ProgressBar().start()
+    cmd = '/usr/local/mysql/bin/mysqld --defaults-file=/data/mysql/3306/my_3306.cnf &'
     (status, output) = subprocess.getstatusoutput(cmd)
     if status == 0:
-        print('mysql server start success')
+        pbar.finish()
+        print('\033[1;33;44m mysql server start success \033[0m')
     else:
         print(output)
-
+        
         #Starting MySQL.Logging to '/usr/local/mysql/data/mgr01.err'.
         #ERROR! The server quit without updating PID file (/usr/local/mysql/data/mgr01.pid).
         #说明 需要指定 my.cnf 配置文件
 
 def main():
+
+    print("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++")
+    print("++                                          MySQL install start                                               ++")
+    print("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++")
 
     add_mysql_user()
     untar(tar_path)
@@ -165,6 +179,10 @@ def main():
     get_error_password(error_path)
     start_mysql_init()
     start_mysql_server()
+
+    print("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++")
+    print("++                                          MySQL install sucesss                                             ++")
+    print("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++")
 
 if __name__ == '__main__':
     main()
