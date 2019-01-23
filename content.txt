@@ -15,9 +15,9 @@
 		
 	索引检查
 		无主键/索引表
-		重复索引
+		重复/冗余索引     #schema_redundant_indexes
 		字段过多索引
-		未使用的索引
+		从未使用过的索引  #schema_unused_indexes
 		查看哪些索引采用部分索引（前缀索引）
 
     事务/锁相关:

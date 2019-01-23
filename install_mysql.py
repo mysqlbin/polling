@@ -62,6 +62,24 @@ def get_uid_gid():
     print('uid:', uid, 'gid:', gid)
     # return (uid, gid)
 
+
+def get_verion(version):
+
+    if version == 1:
+        version = 'mysql-5_7_20'
+    elif version == 2:
+        version = 'mysql-5_7_21'
+    elif version == 3:
+        version = 'mysql-5_7_22'
+    elif version == 4:
+        version = 'mysql-5_7_23'
+    elif version == 5:
+        version = 'mysql-5_7_24'
+    else:
+        version = 'mysql-5_7_24'
+    return version
+
+
 # 3. 判断要选择的版本
 
 def input_get_version():
@@ -75,19 +93,8 @@ You have 5 options for you Database version install.
 5: Install MySQL 5.7.24
     ''')
 
-    version = int(input("Enter your choice (1, 2, 3, 4, 5): "))  #这里再加一个 y/n
-    if version == 1:
-        version = 'mysql-5_7_20'
-    elif version == 2:
-        version = 'mysql-5_7_21'
-    elif version == 3:
-        version = 'mysql-5_7_22'
-    elif version == 4:
-        version = 'mysql-5_7_23'
-    elif version == 5:
-        version = 'mysql-5_7_24'
-    else:
-        version = 'mysql-5_7_24'
+    version = int(input("Enter your choice (1, 2, 3, 4, 5): "))  #这里再加一个 Y/N
+    version = get_verion(version)
     return version
     ### 退出提示
     #input("点击 enter 键退出")
@@ -116,7 +123,7 @@ def untar():
 
     try:
         # version_addr = input_get_version()
-        untar_cmd = 'mkdir /usr/local/mysql && tar -xzvf {} -C /usr/local/mysql --strip-components 1'.format(version_has_download_dict[5])
+        untar_cmd = 'mkdir /usr/local/mysql && tar -xzvf {} -C /usr/local/mysql --strip-components 1'.format(version_has_download_dict['mysql-5_7_24'])
         print ('start tar -xzvf mysql tar gz..........')
         pbar = ProgressBar().start()
         (status, output) = subprocess.getstatusoutput(untar_cmd)

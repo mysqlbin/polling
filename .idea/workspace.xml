@@ -2,8 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="b7b2d23e-98d2-49ce-abf5-70aa23db85bf" name="Default" comment="">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/content.txt" afterPath="$PROJECT_DIR$/content.txt" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/install_mysql.py" afterPath="$PROJECT_DIR$/install_mysql.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/test.py" afterPath="$PROJECT_DIR$/test.py" />
     </list>
     <ignored path="polling_manager.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -24,11 +24,21 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+      <file leaf-file-name="content.txt" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/content.txt">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="313">
+              <caret line="19" column="40" selection-start-line="19" selection-start-column="19" selection-end-line="19" selection-end-column="40" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
       <file leaf-file-name="mysql_polling.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/mysql_polling.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="225">
-              <caret line="9" column="0" selection-start-line="9" selection-start-column="0" selection-end-line="13" selection-end-column="0" />
+            <state relative-caret-position="296">
+              <caret line="270" column="55" selection-start-line="270" selection-start-column="34" selection-end-line="270" selection-end-column="55" />
               <folding>
                 <element signature="e#44#53#0" expanded="true" />
               </folding>
@@ -49,8 +59,8 @@
       <file leaf-file-name="install_mysql.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/install_mysql.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="363">
-              <caret line="232" column="19" selection-start-line="232" selection-start-column="19" selection-end-line="232" selection-end-column="19" />
+            <state relative-caret-position="271">
+              <caret line="131" column="35" selection-start-line="131" selection-start-column="35" selection-end-line="131" selection-end-column="35" />
               <folding>
                 <element signature="e#40#57#0" expanded="true" />
               </folding>
@@ -131,7 +141,6 @@
         <option value="$PROJECT_DIR$/polling.py" />
         <option value="$PROJECT_DIR$/os_polling.py" />
         <option value="$PROJECT_DIR$/../mysql_polling_online.py" />
-        <option value="$PROJECT_DIR$/content.txt" />
         <option value="$PROJECT_DIR$/replication_monitor.py" />
         <option value="$PROJECT_DIR$/tps-qps.py" />
         <option value="$PROJECT_DIR$/mysql_polling.py" />
@@ -139,6 +148,7 @@
         <option value="$PROJECT_DIR$/test.py" />
         <option value="$PROJECT_DIR$/input.py" />
         <option value="$PROJECT_DIR$/install_mysql.py" />
+        <option value="$PROJECT_DIR$/content.txt" />
       </list>
     </option>
   </component>
@@ -482,14 +492,6 @@
     <entry file="file://$PROJECT_DIR$/../mysql_polling_online.py" />
     <entry file="file://$PROJECT_DIR$/status.py" />
     <entry file="file://$PROJECT_DIR$/variables.py" />
-    <entry file="file://$PROJECT_DIR$/content.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1104">
-          <caret line="124" column="6" selection-start-line="124" selection-start-column="0" selection-end-line="125" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/os_polling.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1150">
@@ -553,16 +555,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/mysql_polling.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="225">
-          <caret line="9" column="0" selection-start-line="9" selection-start-column="0" selection-end-line="13" selection-end-column="0" />
-          <folding>
-            <element signature="e#44#53#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://C:/Anaconda2/Lib/subprocess.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1020">
@@ -605,10 +597,28 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/mysql_polling.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="296">
+          <caret line="270" column="55" selection-start-line="270" selection-start-column="34" selection-end-line="270" selection-end-column="55" />
+          <folding>
+            <element signature="e#44#53#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/content.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="313">
+          <caret line="19" column="40" selection-start-line="19" selection-start-column="19" selection-end-line="19" selection-end-column="40" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/install_mysql.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="363">
-          <caret line="232" column="19" selection-start-line="232" selection-start-column="19" selection-end-line="232" selection-end-column="19" />
+        <state relative-caret-position="271">
+          <caret line="131" column="35" selection-start-line="131" selection-start-column="35" selection-end-line="131" selection-end-column="35" />
           <folding>
             <element signature="e#40#57#0" expanded="true" />
           </folding>
