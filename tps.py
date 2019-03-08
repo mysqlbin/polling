@@ -5,7 +5,7 @@ import MySQLdb
 import time,datetime
 import re
 
-conn = MySQLdb.connect(host='192.168.0.54', port=3306, user='root', passwd='123456abc', db='niuniu_db', charset='utf8')
+conn = MySQLdb.connect(host='192.168..', port=3306, user='root', passwd='', db='niuniu_db', charset='utf8')
 cursor = conn.cursor()
 
 

@@ -377,6 +377,7 @@ print '''
 3.innodb_log_files_in_group
 4.innodb_log_buffer_size
 5.Innodb_log_waits  #因 log buffer不足导致等待的次数
+6. innodb_log_writes
 
 # change buffer
 1.innodb_change_buffer_max_size
@@ -493,14 +494,22 @@ data = cursor.fetchone()
 innodb_log_buffer_size = int(data[1])/1024/1024
 print "innodb_log_buffer_size: %f M" % innodb_log_buffer_size
 
-#5.Innodb_log_waits
-sql_innodb_log_waits = "show global status like 'Innodb_log_waits'"
-cursor.execute(sql_innodb_log_waits)
+#5.innodb_log_writes
+sql_innodb_log_writes = "show global status like 'innodb_log_writes'"
+cursor.execute(sql_innodb_log_writes)
 data = cursor.fetchone()
-log_waits = data[1]
-print "Innodb_log_waits: %s" % log_waits
-if int(log_waits) > 0:
-    print '注意：因日志缓存太小而必须等待其被写入所造成的等待数 %s' % int(log_waits) + ' 次'
+log_writes = data[1]
+print "innodb_log_writes: %s" % log_writes
+if int(log_writes) > 0:
+    print '从 redo log buffer 刷新到 redo log file 的次数 %s' % int(log_writes) + ' 次'
+
+#6.innodb_log_buffer_size
+sql_innodb_log_buffer_size = "show global variables like 'innodb_log_buffer_size'"
+cursor.execute(sql_innodb_log_buffer_size)
+data = cursor.fetchone()
+innodb_log_buffer_size = int(data[1])/1024/1024
+print "innodb_log_buffer_size: %f M" % innodb_log_buffer_size
+
 
 
 #Change buffer
