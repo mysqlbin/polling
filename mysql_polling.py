@@ -4,6 +4,8 @@ import os
 import MySQLdb
 import time,datetime
 import re
+import sys
+
 
 conn = MySQLdb.connect(host='192.168.0.54', port=3306, user='root', passwd='123456abc', db='niuniu_db', charset='utf8')
 cursor = conn.cursor()
@@ -35,11 +37,11 @@ print '''
 '''
 #1.get tables more than 10G
 cursor.execute("select table_schema,table_name,concat(round((data_length+index_length)/1024/1024,2),'M') FROM \
-information_schema.tables where (DATA_LENGTH+INDEX_LENGTH) > 10*1024*1024*1024  and table_schema not in \
+information_schema.tables where (DATA_LENGTH+INDEX_LENGTH) > 1*1024*1024*1024  and table_schema not in \
 ('information_schema','mysql','performance_schema','sys')")
 table_size = cursor.fetchall()
 
-print "\033[1;33;44m 1: result of table is more than 10G\033[0m"
+print "\033[1;33;44m 1: result of table is more than 1G\033[0m"
 if table_size:
     for table in table_size:
         table_schema = table[0]
@@ -48,7 +50,7 @@ if table_size:
         print " table_schema: %-20s  table_name : %-20s size: %10s " % \
               (table_schema, table_name, size)
 else:
-    print "no table is more than 10G"
+    print "no table is more than 1G"
 
 #2.get the top 20 tables
 cursor.execute("SELECT table_schema,table_name,(data_length/1024/1024) AS data_mb,(index_length/1024/1024) AS index_mb,((data_length + index_length)/1024/1024) AS all_mb,table_rows FROM  \
@@ -104,6 +106,7 @@ else:
     print "no table has big fragment"
 
 #5.get tables which have 20000000 rows
+'''
 cursor.execute("select table_schema,table_name,table_rows from \
 information_schema.TABLES where table_schema not in ('information_schema','mysql','performance_schema','sys') \
 and table_rows > 20000000 order by table_rows desc;")
@@ -119,6 +122,8 @@ if table_fragment:
               (table_schema, table_name, table_rows)
 else:
     print "no table has has more than 20000000 rows"
+'''
+
 
 #6.get table charset not default
 cursor.execute("show variables like 'character_set_server';")
@@ -191,7 +196,7 @@ if auto_increment:
         max_value = table[2]
         auto_increment = table[3]
         auto_increment_ratio = table[4]
-        print " table_schema: %-20s  table_name : %-30s all_size: %-15s data_size: %-15s index_size: %-15s " % \
+        print " table_schema: %-20s  table_name : %-30s max_value: %-15s auto_increment: %-15s auto_increment_ratio: %-15s " % \
               (table_schema, table_name, max_value, auto_increment, auto_increment_ratio)
 else:
     print "no table auto increment ratio has more than 50%"
@@ -211,7 +216,7 @@ print '''
 5.sub_part indexes
 ----------------------------------------------------------------------------------------------------------------
 '''
-
+'''
 #get tables which have not indexes
 cursor.execute("SELECT t.table_schema,t.table_name FROM information_schema.tables AS t LEFT JOIN \
 (SELECT DISTINCT table_schema, table_name FROM information_schema.`KEY_COLUMN_USAGE` ) AS kt ON \
@@ -300,6 +305,7 @@ else:
     print "no sub_part indexes"
 
 time.sleep(1)
+'''
 
 
 print '''
@@ -334,6 +340,7 @@ else:
     print "no long uncommitted transactions"
 
 #innodb lock waits
+'''
 cursor.execute("SELECT wait_started,wait_age_secs,locked_table,blocking_trx_id,blocking_pid,waiting_query FROM sys.innodb_lock_waits;")
 innodb_lock_wait = cursor.fetchall()
 print "\033[1;33;44m 2: result of innodb lock waits\033[0m"
@@ -349,7 +356,7 @@ if innodb_lock_wait:
               (wait_started, wait_age_secs, locked_table, blocking_trx_id, blocking_pid, waiting_query)
 else:
     print "no innodb lock waits"
-
+'''
 
 print '''
 ----------------------------------------------------------------------------------------------------------------

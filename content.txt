@@ -1,12 +1,12 @@
-
+巡检项目可以写成一个类，哪些不需要的就不调用
 
 巡检项目
 	表检查
-		超过10G大表
+		超过1G大表
 		数据量排名前20的表
 		索引数目超过8个的表
 		碎片超过1G的表
-		单表超过2000万的表
+		#单表超过2000万的表
 		非默认字符集表
 		大字段表
 		字段长度过大的表
@@ -14,25 +14,24 @@
 
 		
 	索引检查
-		无主键/索引表
-		重复/冗余索引     #schema_redundant_indexes
-		字段过多索引
-		从未使用过的索引  #schema_unused_indexes
-		查看哪些索引采用部分索引（前缀索引）
+		#无主键/索引表
+		#重复/冗余索引     #schema_redundant_indexes
+		#字段过多索引
+		#从未使用过的索引  #schema_unused_indexes
+		#查看哪些索引采用部分索引（前缀索引）
 
     事务/锁相关:
 	 长时间未提交的事务
-	 select b.host, b.user, b.db, b.time, b.COMMAND, a.trx_id, a. trx_state from information_schema.innodb_trx a left join information_schema.PROCESSLIST b on a.trx_mysql_thread_id = b.id;
+	    select b.host, b.user, b.db, b.time, b.COMMAND, a.trx_id, a. trx_state from information_schema.innodb_trx a left join information_schema.PROCESSLIST b on a.trx_mysql_thread_id = b.id;
 	 行锁等待
-	 SELECT * FROM sys.innodb_lock_waits
-	 表锁
-	 死锁
-	 MDL锁
+	 #SELECT * FROM sys.innodb_lock_waits
+	 #表锁
+	 #死锁
+	 #MDL锁
 
 
 	参数检查(variables)
 		1.version
-
 		# InnoDB
 		1.innodb_flush_neighbors
 		2.innodb_flush_method
