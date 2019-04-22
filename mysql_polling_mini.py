@@ -12,7 +12,7 @@ sys.argv[2]   #host
 sys.argv[3]   #b_name
 '''
 
-conn = MySQLdb.connect(host=sys.argv[2], port=3306, user='polling_user', passwd='pollinG@2019%', db=sys.argv[3], charset='utf8')
+conn = MySQLdb.connect(host=sys.argv[2], port=3306, user='', passwd='', db=sys.argv[3], charset='utf8')
 cursor = conn.cursor()
 
 
