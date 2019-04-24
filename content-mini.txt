@@ -1,36 +1,34 @@
 
 巡检项目
-	表检查
+	一、表检查
 		超过1G大表
 		数据量排名前20的表
 		碎片超过0.5G的表
 		自增ID占比
 
-	长时间未提交的事务：
+	二、长时间未提交的事务：
 	    select b.host, b.user, b.db, b.time, b.COMMAND, a.trx_id, a. trx_state from information_schema.innodb_trx a left join information_schema.PROCESSLIST b on a.trx_mysql_thread_id = b.id;
 
-	数据库状态检查(status)
+	三、数据库状态检查(status)
 		1.version
         2.Innodb_log_waits  #状态参数；因 log buffer不足导致等待的次数; 因日志缓存太小而必须等待其被写入所造成的等待数。单位是次。 如果 log buffer 大于 0，需要考虑加在 innodb_log_buffer_size
 		3.max_connections
-        4.Max_used_connections
-        #若 Max_used_connections 接近 max_connections，则观察分别是哪些连接了数据库
+        4.Max_used_connections   #若 Max_used_connections 接近 max_connections，则观察分别是哪些连接了数据库
+        5.Threads_running   并发活跃线程数（当前并发连接数、表示当前正在运行的线程数）
+	    6.Innodb_row_lock_current_waits 行锁等待（表示当前发生行锁等待的次数)
 
-	InnoDB buffer pool的使用情况:
+	四、InnoDB buffer pool的使用情况:
 
 		1.计算脏页占比  innodb_buffer_pool_pages_dirty/innodb_buffer_pool_pages_total
 		2.计算InnoDB buffer pool 命中率 innodb_buffer_pool_read_requests/(innodb_buffer_pool_read_requests + innodb_buffer_pool_read_ahead + innodb_buffer_pool_reads)
-	    3.Innodb_buffer_pool_pages_free      #状态参数；没有用到的page数量（空闲的page数量）; 单位是Page；该值小于1000（指标）或者一直在加速减小，需要观察看看是不是的频繁在申请空闲的Page
+	    3.Innodb_buffer_pool_pages_free      #状态参数；没有用到的page数量（空闲的page数量）; 单位是Page；该值小于1000（指标）或者一直在减小，需要观察看看是不是的频繁在申请空闲的Page，可以适当调大innodb_lru_scan_depth　
 	    4.Innodb_buffer_pool_wait_free       #状态参数；buffer pool free list(空闲列表)暂无空闲可用的页，需要等于申请，大于0 说明 InnoDB buffer pool 内存紧张。
 	    5.判断 InnoDB buffer pool是否使用紧张(不够用)：查看 Innodb_buffer_pool_wait_free 的值是否大于0， 大于0说明紧张
 
-
-	状态值:
-	  1).当前并发连接数:
-		Threads_running    并发活跃线程数（表示当前正在运行的线程数）
-		
-	  2).行锁等待:
-		Innodb_row_lock_current_waits  表示当前发生行锁等待的次数
+    五、临时表相关的巡检：
+        **************************************************************
+        哪些SQL语句使用了磁盘临时表?
+        select db, query, tmp_tables, tmp_disk_tables, tmp_tables+tmp_disk_tables as tmp_all from sys.statement_analysis where tmp_tables>0 or tmp_disk_tables >0 order by tmp_all desc limit 20;
 
 	数据库统计信息：
 	    数据库的总量  #select concat(round(sum(data_length + index_length) / 1024 / 1024, 2),'M') as total_mb from information_schema.tables where TABLE_SCHEMA='niuniu_db'

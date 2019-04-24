@@ -12,7 +12,7 @@ sys.argv[2]   #host
 sys.argv[3]   #b_name
 '''
 
-conn = MySQLdb.connect(host=sys.argv[2], port=3306, user='', passwd='', db=sys.argv[3], charset='utf8')
+conn = MySQLdb.connect(host=sys.argv[2], port=3306, user='polling_user', passwd='', db=sys.argv[3], charset='utf8')
 cursor = conn.cursor()
 
 
@@ -163,8 +163,9 @@ print '''
 11.计算InnoDB buffer pool 命中率 innodb_buffer_pool_read_requests/(innodb_buffer_pool_read_requests + innodb_buffer_pool_read_ahead + innodb_buffer_pool_reads)
 12.Innodb_buffer_pool_wait_free             #innodb buffer pool不够用了等待把热点数据或脏页的buffer pool释放次数，该参数大于0说明  InnoDB buffer pool 不够用了
 13. Innodb_buffer_pool_pages_free           #空闲的page数量
-13.Threads_running                          #表示当前正在运行的活跃线程数
-14.Innodb_row_lock_current_waits            #表示当前发生行锁等待的次数
+14.Threads_running                          #表示当前正在运行的活跃线程数
+15.Innodb_row_lock_current_waits            #表示当前发生行锁等待的次数
+16.tmp_tables　tmp_disk_tables　　　　　　　#临时表、磁盘临时表　　　　
 ----------------------------------------------------------------------------------------------------------------
 '''
 
@@ -311,6 +312,24 @@ if Innodb_row_lock_current_waits > 0:
                       (blocking_lock_id, requested_lock_id, blocking_trx_id, blocking_lock_id)
         else:
             print "no innodb row lock current waits"
+
+#16.tmp_tables, tmp_disk_tables
+if sys.argv[1] >= '5.7':
+    cursor.execute(
+        "select db, query, tmp_tables, tmp_disk_tables, tmp_tables+tmp_disk_tables as tmp_all from sys.statement_analysis where tmp_tables>0 or tmp_disk_tables >0 order by tmp_all desc limit 20;")
+    tmp_tables = cursor.fetchall()
+    print "\033[1;33;44m 1: result of tmp_tables list \033[0m"
+    if tmp_tables:
+        for trx in tmp_tables:
+            db_name = trx[0]
+            query_sql = trx[1]
+            tmp_tables = trx[2]
+            tmp_disk_tables = trx[3]
+            tmp_all = trx[4]
+            print " db_name: %-20s  query_sql: %-20s tmp_tables: %-20s tmp_disk_tables: %-20s tmp_all: %-20s" % \
+                  (db_name, query_sql, tmp_tables, tmp_disk_tables, tmp_all)
+    else:
+        print "no tmp_tables data"
 
 
 print '''
