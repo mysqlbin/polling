@@ -80,8 +80,8 @@
 		2.innodb_lru_scan_depth                     #控制LRU列表中可用页的数量，默认值为1024
 		3.innodb_buffer_pool_instances              #缓冲池实例数
 		4.innodb_max_dirty_pages_pct                #达到最大脏页占比，强制进行 checkpoint, 刷新一部分的脏页到磁盘
-		5.innodb_buffer_pool_pages_dirty            #脏页数据的大小（表示用来缓存脏页的page 数量）; 单位是Page
-		6.innodb_buffer_pool_pages_total            #缓冲池总共的页面数 ; 单位是Page
+		5.innodb_buffer_pool_pages_dirty            #脏页数据的大小;     单位是Page
+		6.innodb_buffer_pool_pages_total            #缓冲池总共的页面数; 单位是Page
 		7.innodb_buffer_pool_read_requests          #从缓冲池读取页的次数
 		8.innodb_buffer_pool_read_ahead             #预读的次数
 		9.innodb_buffer_pool_reads                  #从磁盘读取页的次数
@@ -121,5 +121,3 @@
         共有多少个存储过程
         共有多少个事件
 	
-	
-感谢徐晨亮, 给了我一个很好的模板参考

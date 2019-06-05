@@ -38,3 +38,20 @@
 
 	账号所需权限：
         grant process,select on *.* to 'polling_user'@'%' identified by '123456abc';
+
+    #后期实现：
+        把内容写入数据库表中
+        用class类实现该检测脚本
+
+查看某个库的数据量大小:
+select concat(round(sum(data_length + index_length) / 1024 / 1024, 2),'M') as total_mb from information_schema.tables where TABLE_SCHEMA='库名';
+查看某个库下的指定表的数据量大小:
+select concat(round(sum(data_length + index_length) / 1024 / 1024, 2),'M') as total_mb from information_schema.tables where TABLE_SCHEMA='库名' and TABLE_NAME='表名';
+
+#查看实例下面 数据量排名前20的表:
+SELECT table_schema,table_name,(data_length/1024/1024) AS data_mb,(index_length/1024/1024) AS index_mb,((data_length + index_length)/1024/1024) AS all_mb,table_rows FROM
+information_schema.tables  where table_schema not in
+('information_schema','mysql','performance_schema','sys') order by all_mb desc limit 20;
+
+data_length 是数据的大小;
+index_length 是索引的大小;
