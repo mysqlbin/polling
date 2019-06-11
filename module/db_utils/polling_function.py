@@ -1,51 +1,7 @@
 #!/usr/local/bin/python3
 #coding=utf-8
 
-import pymysql
-import argparse
-import sys
-import datetime
-
-
-def parse_args():
-   parser = argparse.ArgumentParser()
-   parser.add_argument('--host', type=str, default='192.168.0.54', help='Host the MySQL database server located')
-   parser.add_argument('--user', type=str, default='root', help='MySQL Username to log in as')
-   parser.add_argument('--password', default='123456abc', help='MySQL Password to use')
-   parser.add_argument('--port', default=3306, type=int, help='MySQL port to use')
-   return parser
-
-def command_line_args(args):
-    parser = parse_args()
-    args = parser.parse_args(args)
-    return args
-
-def mysql_query(sql, user, passwd, host, port, get_data = 1):
-    try:
-        conn=pymysql.connect(host=host,user=user,passwd=passwd,port=int(port),connect_timeout=5,charset='utf8mb4')
-        cursor = conn.cursor()
-        cursor.execute(sql)
-        if get_data == 1:
-            result = cursor.fetchone()
-        else:
-            result = cursor.fetchall()
-        cursor.close()
-        conn.close()
-        return result
-    except Exception as err:
-        return err
-
-args = command_line_args(sys.argv[1:])
-user = args.user
-passwd = args.password
-host = args.host
-port = args.port
-
-def get_process_data(sql, get_data = 1):
-
-    results = mysql_query(sql, user, passwd, host, port, get_data)
-    return results
-
+from db_utils.db_function import get_process_data
 
 #get tables more than 10G
 def get_table_size():
@@ -240,29 +196,3 @@ def get_innodb_lock_waits_list():
             else:
                 print("no innodb row lock current waits...")
 
-
-if __name__ == '__main__':
-
-    print("start time: %s" % datetime.datetime.now())
-    print('当前数据库版本为: {}'.format(get_version()))
-
-    get_table_size()
-    get_top20_big_tables()
-    get_big_fragment_tables()
-    get_auto_increment_ratio()
-    get_long_uncommitted_transactions()
-    get_innodb_log_waitss()
-    get_max_connections()
-    get_max_used_connections()
-    get_pages_info()
-    get_dirty_pages_proportion()
-    get_db_reads_info()
-    get_buffer_pool_hit()
-    get_innodb_buffer_pool_wait_free()
-    get_innodb_buffer_pool_pages_free()
-    get_threads_running()
-
-    print('Innodb_row_lock_current_waits: {} '.format(get_innodb_row_lock_current_waits()))
-    get_innodb_lock_waits_list()
-
-    print("end time: %s" % datetime.datetime.now())
