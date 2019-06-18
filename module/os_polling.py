@@ -7,7 +7,7 @@ import psutil
 # CPU利用信息
 def get_cpu_info(verbose):
     cpu_info = {}
-    if verbose >0:
+    if verbose > 0:
         print("[cpu]    start collect cpu info ...")
     data = psutil.cpu_times_percent()
     cpu_info['user'] = data[0]        # 用户空间使用
@@ -17,7 +17,7 @@ def get_cpu_info(verbose):
     cpu_info['hardirq'] = data[5]     # 硬中断
     cpu_info['softirq'] = data[6]     # 软中断
     cpu_info['cpu_cores'] = psutil.cpu_count()    #CPU核数
-    if verbose >0:
+    if verbose > 0:
         print("[cpu]    collection compeleted ...")
     return cpu_info
 
@@ -29,14 +29,14 @@ def get_mem_info(verbose):
     data = psutil.virtual_memory()
     mem_info['total'] = round(int(data[0])/1024/1024/1024,2)
     mem_info['avariable'] = round(int(data[1])/1024/1024/1024,2)
-    if verbose>0:
+    if verbose > 0:
         print("[mem]  collection compeletd ...")
     return mem_info
 
 #磁盘利用信息
 def get_disk_info(verbose):
     disk_info={}
-    if verbose >0:
+    if verbose > 0:
         print("[disk]    start collect disk info ...")
     partitions = psutil.disk_partitions()
     partitions = [(partition[1],partition[2]) for partition in partitions if partition[2]!='iso9660']
