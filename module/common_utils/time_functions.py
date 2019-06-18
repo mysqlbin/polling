@@ -16,3 +16,5 @@ def time_calculate(val):
 def format_to_ymd():
     ymd = time.strftime("%Y-%m-%d")
     return ymd
+
+
