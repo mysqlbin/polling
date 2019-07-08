@@ -3,7 +3,7 @@
 
 import datetime
 
-from common_utils.time_function import  format_to_ymdx
+from common_utils.time_functions import  format_to_ymdx
 from db_utils.polling_function  import get_version,get_table_size,get_top20_big_tables,get_big_fragment_tables,get_auto_increment_ratio,\
     get_long_uncommitted_transactions,get_innodb_log_waitss,get_max_connections,get_max_used_connections,get_pages_info,get_dirty_pages_proportion,\
     get_db_reads_info,get_buffer_pool_hit,get_innodb_buffer_pool_wait_free,get_innodb_buffer_pool_pages_free,get_threads_running,get_innodb_row_lock_current_waits,\

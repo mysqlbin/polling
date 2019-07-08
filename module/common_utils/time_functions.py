@@ -18,3 +18,5 @@ def format_to_ymd():
     return ymd
 
 
+print(time_calculate(-1))
+

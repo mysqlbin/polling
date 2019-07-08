@@ -196,3 +196,85 @@ def get_innodb_lock_waits_list():
             else:
                 print("no innodb row lock current waits...")
 
+
+
+def get_innodb_buffer_pool_size():
+    sql = "show global variables like 'innodb_buffer_pool_size'"
+    results = get_process_data(sql)
+    if results:
+        return results[1]
+
+
+def get_innodb_log_buffer_size():
+    sql = "show global variables like 'innodb_log_buffer_size'"
+    results = get_process_data(sql)
+    if results:
+        return results[1]
+
+
+def get_key_buffer_size():
+    sql = "show global variables like 'key_buffer_size'"
+    results = get_process_data(sql)
+    if results:
+        return results[1]
+
+
+def get_query_cache_size():
+    sql = "show global variables like 'query_cache_size'"
+    results = get_process_data(sql)
+    if results:
+        return results[1]
+
+
+
+def get_read_buffer_size():
+    sql = "show global variables like 'read_buffer_size'"
+    results = get_process_data(sql)
+    if results:
+        return results[1]
+
+
+def get_read_rnd_buffer_size():
+    sql = "show global variables like 'read_rnd_buffer_size'"
+    results = get_process_data(sql)
+    if results:
+        return results[1]
+
+
+def get_read_rnd_buffer_size():
+    sql = "show global variables like 'read_rnd_buffer_size'"
+    results = get_process_data(sql)
+    if results:
+        return results[1]
+
+def get_sort_buffer_size():
+    sql = "show global variables like 'sort_buffer_size'"
+    results = get_process_data(sql)
+    if results:
+        return results[1]
+
+
+
+def get_join_buffer_size():
+    sql = "show global variables like 'join_buffer_size'"
+    results = get_process_data(sql)
+    if results:
+        return results[1]
+
+def get_binlog_cache_size():
+    sql = "show global variables like 'binlog_cache_size'"
+    results = get_process_data(sql)
+    if results:
+        return results[1]
+
+def get_tmp_table_size():
+    sql = "show global variables like 'tmp_table_size'"
+    results = get_process_data(sql)
+    if results:
+        return results[1]
+
+def get_threads_running():
+    sql = "show status like 'Threads_running'"
+    results = get_process_data(sql)
+    if results:
+        return results[1]
