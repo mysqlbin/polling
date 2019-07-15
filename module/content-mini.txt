@@ -1,0 +1,57 @@
+
+巡检项目
+	一、表检查
+		超过1G大表
+		数据量排名前20的表
+		碎片超过0.5G的表
+		自增ID占比
+
+	二、长时间未提交的事务：
+	    select b.host, b.user, b.db, b.time, b.COMMAND, a.trx_id, a. trx_state from information_schema.innodb_trx a left join information_schema.PROCESSLIST b on a.trx_mysql_thread_id = b.id;
+
+	三、数据库状态检查(status)
+		1.version
+        2.Innodb_log_waits  #状态参数；因 log buffer不足导致等待的次数; 因日志缓存太小而必须等待其被写入所造成的等待数。单位是次。 如果 log buffer 大于 0，需要考虑加在 innodb_log_buffer_size
+		3.max_connections
+        4.Max_used_connections   #若 Max_used_connections 接近 max_connections，则观察分别是哪些连接了数据库
+        5.Threads_running   并发活跃线程数（当前并发连接数、表示当前正在运行的线程数）
+	    6.Innodb_row_lock_current_waits 行锁等待（表示当前发生行锁等待的次数)
+
+	四、InnoDB buffer pool的使用情况:
+
+		1.计算脏页占比  innodb_buffer_pool_pages_dirty/innodb_buffer_pool_pages_total
+		2.计算InnoDB buffer pool 命中率 innodb_buffer_pool_read_requests/(innodb_buffer_pool_read_requests + innodb_buffer_pool_read_ahead + innodb_buffer_pool_reads)
+	    3.Innodb_buffer_pool_pages_free      #状态参数；没有用到的page数量（空闲的page数量）; 单位是Page；该值小于1000（指标）或者一直在减小，需要观察看看是不是的频繁在申请空闲的Page，可以适当调大innodb_lru_scan_depth　
+	    4.Innodb_buffer_pool_wait_free       #状态参数；buffer pool free list(空闲列表)暂无空闲可用的页，需要等于申请，大于0 说明 InnoDB buffer pool 内存紧张。
+	    5.判断 InnoDB buffer pool是否使用紧张(不够用)：查看 Innodb_buffer_pool_wait_free 的值是否大于0， 大于0说明紧张
+
+    五、临时表相关的巡检：
+        **************************************************************
+        哪些SQL语句使用了磁盘临时表?
+        select db, query, tmp_tables, tmp_disk_tables, tmp_tables+tmp_disk_tables as tmp_all from sys.statement_analysis where tmp_tables>0 or tmp_disk_tables >0 order by tmp_all desc limit 20;
+
+	数据库统计信息：
+	    数据库的总量  #select concat(round(sum(data_length + index_length) / 1024 / 1024, 2),'M') as total_mb from information_schema.tables where TABLE_SCHEMA='niuniu_db'
+        共有多少个表  #SELECT COUNT( * ) FROM information_schema.tables WHERE TABLE_SCHEMA = 'niuniu_db'
+        共有多少个存储过程
+        共有多少个事件
+
+	账号所需权限：
+        grant process,select on *.* to 'polling_user'@'%' identified by '123456abc';
+
+    #后期实现：
+        把内容写入数据库表中
+        用class类/模块化实现该检测脚本
+
+查看某个库的数据量大小:
+select concat(round(sum(data_length + index_length) / 1024 / 1024, 2),'M') as total_mb from information_schema.tables where TABLE_SCHEMA='库名';
+查看某个库下的指定表的数据量大小:
+select concat(round(sum(data_length + index_length) / 1024 / 1024, 2),'M') as total_mb from information_schema.tables where TABLE_SCHEMA='库名' and TABLE_NAME='表名';
+
+#查看实例下面 数据量排名前20的表:
+SELECT table_schema,table_name,(data_length/1024/1024) AS data_mb,(index_length/1024/1024) AS index_mb,((data_length + index_length)/1024/1024) AS all_mb,table_rows FROM
+information_schema.tables  where table_schema not in
+('information_schema','mysql','performance_schema','sys') order by all_mb desc limit 20;
+
+data_length 是数据的大小;
+index_length 是索引的大小;
