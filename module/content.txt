@@ -11,10 +11,7 @@
         大字段表                get_table_big_column()
         字段长度过大的表        get_table_long_varchar_column()
 
-		非默认字符集表
-
-
-
+		#非默认字符集表
 
 	二. 索引检查
 	    索引数目超过多少个的表
@@ -27,93 +24,122 @@
 
 
 	三. 参数检查(variables)
-		#1). InnoDB 层
-		innodb_io_capacity
-		innodb_flush_neighbors
-		innodb_flush_method
-		innodb_file_per_table
-		innodb_open_files
-		innodb_data_home_dir
-		innodb_lock_wait_timeout
-		innodb_thread_concurrency
-        innodb_fast_shutdown
-        innodb_force_recovery
-        innodb_change_buffer_max_size
-        innodb_change_buffering
-        innodb_adaptive_hash_index
 
-            # InnoDB Redo
-            1.innodb_flush_log_at_trx_commit
-            2.innodb_log_file_size
-            3.innodb_log_files_in_group
-            4.innodb_log_buffer_size
-            5.Innodb_log_waits  #状态参数；因 log buffer不足导致等待的次数; 因日志缓存太小而必须等待其被写入所造成的等待数。单位是次。 如果 log buffer 大于 0，需要考虑加在 innodb_log_buffer_size
-            6. innodb_log_writes  #从 redo log buffer 刷新到 redo log file 的次数。
+		#3.1. InnoDB 层
 
-            #InnoDB undo log
+            tx_isolation
+            innodb_io_capacity
+            innodb_io_capacity_max
+            innodb_flush_method
+            innodb_file_per_table
+            innodb_open_files
+            innodb_data_home_dir
+            innodb_lock_wait_timeout
+            innodb_thread_concurrency
+            innodb_fast_shutdown
+            innodb_data_file_path
+            innodb_write_io_threads
+            innodb_read_io_threads
+            innodb_purge_threads
+            innodb_page_cleaners
+            #double write:
+                innodb_doublewrite
+            #change buffer:
+                innodb_change_buffer_max_size
+                innodb_change_buffering
+            #AHI:
+                innodb_adaptive_hash_index
+
+        #3.1.2. InnoDB Redo
+            innodb_flush_log_at_trx_commit
+            innodb_log_file_size
+            innodb_log_files_in_group
+            innodb_log_buffer_size
+
+        #3.1.3 InnoDB undo log
 
 
-		#2). Server 层
-		binlog:
-		    sync_binlog
-		    binlog_format
-		    binlog_cache_size
-		    max_binlog_size
-		    max_binlog_cache_size
-		    expire_logs_days
+		#3.2 Server 层
+		3.2.1 binlog:
 
-		2.max_connections
-		max_connect_errors
-		max_user_connections
+            sync_binlog
+            binlog_format
+            binlog_cache_size
+            max_binlog_size
+            max_binlog_cache_size
+            expire_logs_days
+        3.2.2 数据库连接数:
+		    max_connections
+		    max_connect_errors
+		    max_user_connections
+            Max_used_connections  #状态值
 
-		3.query_cache_type
-		4.sort_buffer_size
-		5.read_buffer_size
-		6.max_allowed_packet
-		7.table_open_cache
-		8.thread_cache_size
-		9.key_buffer_size
-		10.字符集
-		11.time_zone
-		12.默认存储引擎
-		13.max_execution_time
-        14 .sql_mode
-        15. interactive_timeout
-        16. wait_timeout
-        17. open_files_limit
+        3.2.3 会话/线程级内存
+            key_buffer_size
+            query_cache_size
+            read_buffer_size
+            read_rnd_buffer_size
+            sort_buffer_size
+            join_buffer_size
+            binlog_cache_size
+            tmp_table_size
+        3.2.4 其它参数
+        max_allowed_packet
+        table_open_cache
+        max_execution_time
+        sql_mode
+        interactive_timeout
+        wait_timeout
+        open_files_limit
+        lower_case_table_names
+        slow_query_log
+        long_query_time
+        log_queries_not_using_indexes
+        system_time_zone
+        time_zone
+        log_timestamps
 
-        3. timeout:
-
-        4. 慢查询
 
 
 	四. InnoDB buffer pool的使用情况:
-	    #预读/预写
-		1.innodb_buffer_pool_size                   #缓冲池大小
-		2.innodb_lru_scan_depth                     #控制LRU列表中可用页的数量，默认值为1024
-		3.innodb_buffer_pool_instances              #缓冲池实例数
-		4.innodb_max_dirty_pages_pct                #达到最大脏页占比，强制进行 checkpoint, 刷新一部分的脏页到磁盘
-		5.innodb_buffer_pool_pages_dirty            #脏页数据的大小;     单位是Page
-		6.innodb_buffer_pool_pages_total            #缓冲池总共的页面数; 单位是Page
-		7.innodb_buffer_pool_read_requests          #从缓冲池读取页的次数
-		8.innodb_buffer_pool_read_ahead             #预读的次数
-		9.innodb_buffer_pool_reads                  #从磁盘读取页的次数
-		10.计算脏页占比  innodb_buffer_pool_pages_dirty/innodb_buffer_pool_pages_total
-		11.计算InnoDB buffer pool 命中率 innodb_buffer_pool_read_requests/(innodb_buffer_pool_read_requests + innodb_buffer_pool_read_ahead + innodb_buffer_pool_reads)
-	    12.Innodb_buffer_pool_pages_free            #没有用到的page数量（空闲的page数量）; 单位是Page
-	    13.Innodb_buffer_pool_wait_free             #状态参数；buffer pool free list(空闲列表)暂无空闲可用的页，需要等于申请，大于0 说明 InnoDB buffer pool 内存紧张。
-	    14.判断 InnoDB buffer pool是否使用紧张(不够用)：查看 Innodb_buffer_pool_wait_free 的值是否大于0， 大于0说明紧张
-        15.Innodb_buffer_pool_pages_data 分配出去，正在被使用page的数量，包括脏页；单位是Page
+	  参数:
 
-        #一个Page默认是16KB
+        innodb_random_read_ahead              #随机预读
+        innodb_read_ahead_threshold           #线性预读
 
-	状态值:
-	  1).当前并发连接数:
+	    innodb_buffer_pool_load_at_startup    #预热: 把热数据从磁盘load到buffer pool
+        innodb_buffer_pool_dump_at_shutdown   #预热: 把热数据从buffer pool dump到磁盘
+        innodb_flush_neighbors                #预写
+
+        innodb_buffer_pool_size               #缓冲池大小
+        innodb_buffer_pool_instances          #缓冲池实例数
+        innodb_lru_scan_depth                 #控制LRU列表中可用页的数量，默认值为1024
+        innodb_max_dirty_pages_pct            #达到最大脏页占比，强制进行 checkpoint, 刷新一部分的脏页到磁盘
+        innodb_old_blocks_pct                 #lru中旧区域数据的占比
+        innodb_old_blocks_time                #控制lru中数据停留在old区域头部的时间
+
+      状态值:
+		innodb_buffer_pool_pages_dirty            #脏页数据的大小;     单位是Page
+		innodb_buffer_pool_pages_total            #缓冲池总共的页面数; 单位是Page
+		innodb_buffer_pool_read_requests          #从缓冲池读取页的次数
+		innodb_buffer_pool_read_ahead             #预读的次数
+		innodb_buffer_pool_reads                  #从磁盘读取页的次数
+		Innodb_buffer_pool_pages_data             #分配出去，正在被使用page的数量，包括脏页；单位是Page
+        Innodb_buffer_pool_pages_free             #空闲的page数量; 单位是Page
+	    Innodb_buffer_pool_wait_free              #状态参数；buffer pool free list(空闲列表)暂无空闲可用的页，需要等于申请，大于0 说明 InnoDB buffer pool 内存紧张。
+
+	  计算脏页占比:  innodb_buffer_pool_pages_dirty/innodb_buffer_pool_pages_total
+	  计算InnoDB buffer pool 命中率 innodb_buffer_pool_read_requests/(innodb_buffer_pool_read_requests + innodb_buffer_pool_read_ahead + innodb_buffer_pool_reads)
+	  判断 InnoDB buffer pool是否使用紧张(不够用)：查看 Innodb_buffer_pool_wait_free 的值是否大于0， 大于0说明紧张
+
+
+	五. 状态值:
+	  当前并发连接数:
 		Threads_connected  并发连接数（表示当前所有已经连接的线程数）
 		Threads_created    表示当前所有已经创建的线程数
 		Threads_running    并发活跃线程数（表示当前正在运行的线程数）
 		
-	  2).行锁等待:
+	  行锁等待:
 		Innodb_row_lock_current_waits  表示当前发生行锁等待的次数
 		Innodb_row_lock_time        表示当前发生行锁等待的总时间（以毫秒为单位）
 		Innodb_row_lock_time_avg    表示当前发生行锁等待的平均时间（以毫秒为单位）
@@ -122,9 +148,12 @@
 
 	    如果 Innodb_row_lock_time_avg 跟 Innodb_row_lock_time_max 的差值很大 ，需要看慢SQL;
 
-	  3). opend_files
-	  4). opend_tables
-	  5). Max_used_connections
+	  opend_files
+	  opend_tables
+	  Max_used_connections
+      Innodb_dblwr_pages_written、Innodb_dblwr_writes
+      Created_tmp_tables
+      Created_tmp_disk_tables
 
     事务/锁相关:
 
@@ -139,7 +168,10 @@
 	 #死锁
 	 #MDL锁
 
+    账号所需权限：
+        grant process,select on *.* to 'polling_user'@'%' identified by '123456abc';
 
+    获取这个实例下的所有用户和对应的权限
 
 	数据库统计信息：
 	    数据库的总量  #select concat(round(sum(data_length + index_length) / 1024 / 1024, 2),'M') as total_mb from information_schema.tables where TABLE_SCHEMA='niuniu_db'

@@ -16,7 +16,7 @@ master_host = ''
 master_user = ''
 master_passwd = '123456abc'
 master_port = 3306
-master_database = 'niuniu_db'
+master_database = 'nn_db'
 
 slave_host = ''
 slave_user = ''

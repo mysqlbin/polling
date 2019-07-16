@@ -108,16 +108,9 @@ def get_table_long_varchar_column(character_maximum_length = 500):
     else:
         print("no table has long columns")
 
-
-
-
-
-
-
-
 #long uncommitted transactions
 def get_long_transactions(time = 1):
-    print("\033[1;33;44m 1: result of long uncommitted transactions\033[0m")
+    print("\033[1;33;44m result of long uncommitted transactions\033[0m")
     sql = "select pro.host, pro.user, pro.db, trx.trx_state, pro.COMMAND, concat(pro.time,'s') as runtime, trx.trx_id, pro.id as thread_id \
           from  information_schema.innodb_trx trx left join information_schema.PROCESSLIST pro on trx.trx_mysql_thread_id = pro.id where pro.time > {}".format(time)
     results = get_process_data(sql, 0)
@@ -125,92 +118,24 @@ def get_long_transactions(time = 1):
         for val in results:
             print('host:{:20s} user:{:20s} db:{:20s} trx_state:{:10s} command:{:10s} time:{:10s} trx_id:{:10s} thread_id:{} '.format(val[0], val[1], val[2], val[3], val[4], val[5], val[6], val[7]))
     else:
-        print("no long uncommitted transactions...")
+        print("   no long uncommitted transactions...")
 
-def get_innodb_log_waitss():
-    sql = "show global status like 'Innodb_log_waits'"
-    results = get_process_data(sql)
+#tmp_tables, tmp_disk_tables
+def get_sql_tmp_tables(limit = 20):
+    print("\033[1;33;44m result of sql tmp tables count\033[0m")
+    sql = "select db, tmp_tables, tmp_disk_tables, tmp_tables+tmp_disk_tables as tmp_all, query from sys.statement_analysis \
+          where tmp_tables>0 or tmp_disk_tables >0 order by tmp_all desc limit {};".format(limit)
+    results = get_process_data(sql, 0)
     if results:
-        print('因 log buffer不足导致等待的次数(Innodb_log_waits): {} 次'.format(results[1]))
+        for val in results:
+            if val[0] == None:
+                db_name = ''
+            else:
+                db_name = val[0]
+            print('db_name:{:20s} tmp_tables:{} tmp_disk_tables:{} tmp_all:{} query_sql:{}'.format(db_name, val[1], val[2], val[3], val[4]))
+    else:
+        print("no tmp tables data")
 
-def get_max_connections():
-    sql = "show global status like 'max_connections'"
-    results = get_process_data(sql)
-    if results:
-        print('max_connections: {} '.format(results[1]))
-
-def get_max_used_connections():
-    sql = "show global status like 'Max_used_connections'"
-    results = get_process_data(sql)
-    if results:
-        print('Max_used_connections: {} '.format(results[1]))
-
-
-def get_innodb_buffer_pool_pages_dirty():
-    sql = "show global status like 'innodb_buffer_pool_pages_dirty'"
-    results = get_process_data(sql)
-    if results:
-        return results[1]
-
-def get_innodb_buffer_pool_pages_total():
-    sql = "show global status like 'innodb_buffer_pool_pages_total'"
-    results = get_process_data(sql)
-    if results:
-        return results[1]
-
-def get_pages_info():
-    print('innodb_buffer_pool_pages_dirty: {} '.format(get_innodb_buffer_pool_pages_dirty()))
-    print('innodb_buffer_pool_pages_total: {} '.format(get_innodb_buffer_pool_pages_total()))
-
-def get_dirty_pages_proportion():
-    proportion = (round(int(get_innodb_buffer_pool_pages_dirty()) / int(get_innodb_buffer_pool_pages_total()),4)) * 100
-    print('脏页占比: {}%'.format(proportion))
-
-
-def get_innodb_buffer_pool_read_requests():
-    sql = "show global status like 'innodb_buffer_pool_read_requests'"
-    results = get_process_data(sql)
-    if results:
-        return results[1]
-
-def get_innodb_buffer_pool_read_ahead():
-    sql = "show global status like 'innodb_buffer_pool_read_ahead'"
-    results = get_process_data(sql)
-    if results:
-        return results[1]
-
-def get_innodb_buffer_pool_reads():
-    sql = "show global status like 'innodb_buffer_pool_reads'"
-    results = get_process_data(sql)
-    if results:
-        return results[1]
-
-def get_db_reads_info():
-    print('innodb_buffer_pool_read_requests: {} '.format(get_innodb_buffer_pool_read_requests()))
-    print('innodb_buffer_pool_read_ahead: {} '.format(get_innodb_buffer_pool_read_ahead()))
-    print('innodb_buffer_pool_reads: {} '.format(get_innodb_buffer_pool_reads()))
-
-def get_buffer_pool_hit():
-    proportion = (round(int(get_innodb_buffer_pool_read_requests()) / (int(get_innodb_buffer_pool_read_requests()) + int(get_innodb_buffer_pool_read_ahead()) + int(get_innodb_buffer_pool_reads())),2)) *100
-    print('InnoDB buffer pool 命中率: {}%'.format(proportion))
-
-def get_innodb_buffer_pool_wait_free():
-    sql = "show global status like 'Innodb_buffer_pool_wait_free'"
-    results = get_process_data(sql)
-    if results:
-        print('Innodb_buffer_pool_wait_free: {} '.format(results[1]))
-
-def get_innodb_buffer_pool_pages_free():
-    sql = "show global status like 'Innodb_buffer_pool_pages_free'"
-    results = get_process_data(sql)
-    if results:
-        print('Innodb_buffer_pool_pages_free: {} '.format(results[1]))
-
-def get_threads_running():
-    sql = "show global status like 'Threads_running'"
-    results = get_process_data(sql)
-    if results:
-        print('Threads_running: {} '.format(results[1]))
 
 def get_version():
     sql = "select version()"
@@ -254,85 +179,3 @@ def get_innodb_lock_waits_list():
             else:
                 print("no innodb row lock current waits...")
 
-
-
-def get_innodb_buffer_pool_size():
-    sql = "show global variables like 'innodb_buffer_pool_size'"
-    results = get_process_data(sql)
-    if results:
-        return results[1]
-
-
-def get_innodb_log_buffer_size():
-    sql = "show global variables like 'innodb_log_buffer_size'"
-    results = get_process_data(sql)
-    if results:
-        return results[1]
-
-
-def get_key_buffer_size():
-    sql = "show global variables like 'key_buffer_size'"
-    results = get_process_data(sql)
-    if results:
-        return results[1]
-
-
-def get_query_cache_size():
-    sql = "show global variables like 'query_cache_size'"
-    results = get_process_data(sql)
-    if results:
-        return results[1]
-
-
-
-def get_read_buffer_size():
-    sql = "show global variables like 'read_buffer_size'"
-    results = get_process_data(sql)
-    if results:
-        return results[1]
-
-
-def get_read_rnd_buffer_size():
-    sql = "show global variables like 'read_rnd_buffer_size'"
-    results = get_process_data(sql)
-    if results:
-        return results[1]
-
-
-def get_read_rnd_buffer_size():
-    sql = "show global variables like 'read_rnd_buffer_size'"
-    results = get_process_data(sql)
-    if results:
-        return results[1]
-
-def get_sort_buffer_size():
-    sql = "show global variables like 'sort_buffer_size'"
-    results = get_process_data(sql)
-    if results:
-        return results[1]
-
-
-
-def get_join_buffer_size():
-    sql = "show global variables like 'join_buffer_size'"
-    results = get_process_data(sql)
-    if results:
-        return results[1]
-
-def get_binlog_cache_size():
-    sql = "show global variables like 'binlog_cache_size'"
-    results = get_process_data(sql)
-    if results:
-        return results[1]
-
-def get_tmp_table_size():
-    sql = "show global variables like 'tmp_table_size'"
-    results = get_process_data(sql)
-    if results:
-        return results[1]
-
-def get_threads_running():
-    sql = "show status like 'Threads_running'"
-    results = get_process_data(sql)
-    if results:
-        return results[1]

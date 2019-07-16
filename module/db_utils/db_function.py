@@ -5,7 +5,7 @@ import sys
 
 def parse_args():
    parser = argparse.ArgumentParser()
-   parser.add_argument('--host', type=str, default='192.168.0.54', help='Host the MySQL database server located')
+   parser.add_argument('--host', type=str, default='', help='Host the MySQL database server located')
    parser.add_argument('--user', type=str, default='root', help='MySQL Username to log in as')
    parser.add_argument('--password', default='123456abc', help='MySQL Password to use')
    parser.add_argument('--port', default=3306, type=int, help='MySQL port to use')
@@ -32,13 +32,14 @@ def mysql_query(sql, user, passwd, host, port, get_data = 1):
         return err
 
 
-args = command_line_args(sys.argv[1:])
-user = args.user
-passwd = args.password
-host = args.host
-port = args.port
 
 def get_process_data(sql, get_data = 1):
+
+    args = command_line_args(sys.argv[1:])
+    user = args.user
+    passwd = args.password
+    host = args.host
+    port = args.port
 
     results = mysql_query(sql, user, passwd, host, port, get_data)
 
