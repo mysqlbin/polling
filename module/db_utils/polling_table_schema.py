@@ -153,7 +153,7 @@ def get_innodb_lock_waits_list():
 
     innodb_row_lock_current_waits = get_innodb_row_lock_current_waits()
     if int(innodb_row_lock_current_waits) > 0:
-        print("\033[1;33;44m 1: result of innodb row lock current waits\033[0m")
+        print("\033[1;33;44m 行锁等待列表：\033[0m")
 
         sql_version = "select version()"
         results = get_process_data(sql_version)
@@ -161,21 +161,21 @@ def get_innodb_lock_waits_list():
             get_version = results[0][0:3]
         else:
             get_version = '5.7'
-        if get_version >= '5.7':
 
-            sql  = "SELECT locked_index,locked_type,blocking_lock_mode,waiting_lock_mode,waiting_query FROM sys.innodb_lock_waits"
+        if get_version >= '5.7':
+            sql  = "select locked_index,locked_type,blocking_lock_mode,waiting_lock_mode,waiting_query from sys.innodb_lock_waits"
             results = get_process_data(sql, 0)
             if results:
                 for val in results:
                     print('locked_index:{:10s} locked_type:{:10s} blockint_block_mode:{:10s} waiting_lock_mode:{:10s} waiting_query:{}'.format(val[0], val[1], val[2], val[3], val[4]))
             else:
-                print("no innodb row lock current waits...")
+                print("no innodb row lock current waits list...")
         else:
-            sql = "select requesting_trx_id,requested_lock_id,blocking_trx_id,blocking_lock_id from information_schema.INNODB_LOCK_WAITS"
+            sql = "select requesting_trx_id,requested_lock_id,blocking_trx_id,blocking_lock_id from information_schema.innodb_lock_waits"
             results = get_process_data(sql, 0)
             if results:
                 for val in results:
                     print('requesting_trx_id:{:10s} requested_lock_id:{:10s} blocking_trx_id:{:10s} blocking_lock_id:{} '.format(val[0], val[1], val[2], val[3]))
             else:
-                print("no innodb row lock current waits...")
+                print("no innodb row lock current waits list...")
 

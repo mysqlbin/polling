@@ -84,26 +84,29 @@
             binlog_cache_size
             tmp_table_size
         3.2.4 其它参数
-        max_allowed_packet
-        table_open_cache
-        max_execution_time
-        sql_mode
-        interactive_timeout
-        wait_timeout
-        open_files_limit
-        lower_case_table_names
-        slow_query_log
-        long_query_time
-        log_queries_not_using_indexes
-        system_time_zone
-        time_zone
-        log_timestamps
+            max_allowed_packet
+            table_open_cache
+            max_execution_time
+            sql_mode
+            interactive_timeout
+            wait_timeout
+            open_files_limit
+            lower_case_table_names
+            slow_query_log
+            long_query_time
+            log_queries_not_using_indexes
+            system_time_zone
+            time_zone
+            log_timestamps
 
-
+        3.3 数据库连接数：
+            max_connections
+            max_connect_errors
+            max_user_connections
+            Max_used_connections  #状态值
 
 	四. InnoDB buffer pool的使用情况:
-	  参数:
-
+	  4.1 参数:
         innodb_random_read_ahead              #随机预读
         innodb_read_ahead_threshold           #线性预读
 
@@ -118,7 +121,7 @@
         innodb_old_blocks_pct                 #lru中旧区域数据的占比
         innodb_old_blocks_time                #控制lru中数据停留在old区域头部的时间
 
-      状态值:
+      4.2 状态值:
 		innodb_buffer_pool_pages_dirty            #脏页数据的大小;     单位是Page
 		innodb_buffer_pool_pages_total            #缓冲池总共的页面数; 单位是Page
 		innodb_buffer_pool_read_requests          #从缓冲池读取页的次数
@@ -128,50 +131,64 @@
         Innodb_buffer_pool_pages_free             #空闲的page数量; 单位是Page
 	    Innodb_buffer_pool_wait_free              #状态参数；buffer pool free list(空闲列表)暂无空闲可用的页，需要等于申请，大于0 说明 InnoDB buffer pool 内存紧张。
 
-	  计算脏页占比:  innodb_buffer_pool_pages_dirty/innodb_buffer_pool_pages_total
-	  计算InnoDB buffer pool 命中率 innodb_buffer_pool_read_requests/(innodb_buffer_pool_read_requests + innodb_buffer_pool_read_ahead + innodb_buffer_pool_reads)
-	  判断 InnoDB buffer pool是否使用紧张(不够用)：查看 Innodb_buffer_pool_wait_free 的值是否大于0， 大于0说明紧张
+	  4.3 计算脏页占比:
+	    innodb_buffer_pool_pages_dirty/innodb_buffer_pool_pages_total
+	  4.4 计算InnoDB buffer pool 命中率:
+	     innodb_buffer_pool_read_requests/(innodb_buffer_pool_read_requests + innodb_buffer_pool_read_ahead + innodb_buffer_pool_reads)
+	  4.5 判断 InnoDB buffer pool是否使用紧张(不够用)：
+	     查看 Innodb_buffer_pool_wait_free 的值是否大于0， 大于0说明紧张
 
 
 	五. 状态值:
-	  当前并发连接数:
+	  5.1 当前并发连接数:
 		Threads_connected  并发连接数（表示当前所有已经连接的线程数）
 		Threads_created    表示当前所有已经创建的线程数
 		Threads_running    并发活跃线程数（表示当前正在运行的线程数）
 		
-	  行锁等待:
+	  5.2 行锁等待:
 		Innodb_row_lock_current_waits  表示当前发生行锁等待的次数
 		Innodb_row_lock_time        表示当前发生行锁等待的总时间（以毫秒为单位）
 		Innodb_row_lock_time_avg    表示当前发生行锁等待的平均时间（以毫秒为单位）
 		Innodb_row_lock_time_max    表示当前发生行锁等待的最大时间（以毫秒为单位）
 		Innodb_row_lock_waits       表示发生行锁等待的总次数
-
 	    如果 Innodb_row_lock_time_avg 跟 Innodb_row_lock_time_max 的差值很大 ，需要看慢SQL;
 
-	  opend_files
-	  opend_tables
-	  Max_used_connections
-      Innodb_dblwr_pages_written、Innodb_dblwr_writes
-      Created_tmp_tables
-      Created_tmp_disk_tables
+	  5.3 打开表的次数:
+	    Open_files
+	    opend_tables
+        Opened_tables
 
-    事务/锁相关:
+      5.4 创建的内存临时表和磁盘临时表的次数:
+        Created_tmp_tables
+        Created_tmp_disk_tables
 
-	 长时间未提交的事务
+      5.5 double write的使用情况:
+        Innodb_dblwr_pages_written
+        Innodb_dblwr_writes
+      5.6 因 log buffer不足导致等待的次数:
+        Innodb_log_waits
+
+
+    六、长事务、临时表、行锁等待列表:
+
+	 6.1 长时间未提交的事务
 	    select b.host, b.user, b.db, b.time, b.COMMAND, a.trx_id, a. trx_state from information_schema.innodb_trx a left join information_schema.PROCESSLIST b on a.trx_mysql_thread_id = b.id;
-	  哪些SQL语句使用了磁盘临时表?
+	 6.2 哪些SQL语句使用了磁盘临时表?
         select db, query, tmp_tables, tmp_disk_tables, tmp_tables+tmp_disk_tables as tmp_all from sys.statement_analysis where tmp_tables>0 or tmp_disk_tables >0 order by tmp_all desc limit 20;
 
-	 行锁等待
-	 #SELECT * FROM sys.innodb_lock_waits
+	 6.3 行锁等待
+	    SELECT * FROM sys.innodb_lock_waits
+
 	 #表锁
 	 #死锁
 	 #MDL锁
 
+    实例下的所有用户和对应的权限
+
     账号所需权限：
         grant process,select on *.* to 'polling_user'@'%' identified by '123456abc';
 
-    获取这个实例下的所有用户和对应的权限
+
 
 	数据库统计信息：
 	    数据库的总量  #select concat(round(sum(data_length + index_length) / 1024 / 1024, 2),'M') as total_mb from information_schema.tables where TABLE_SCHEMA='niuniu_db'

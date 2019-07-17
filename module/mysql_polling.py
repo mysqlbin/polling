@@ -20,7 +20,7 @@ if __name__ == '__main__':
 
     print('当前数据库版本为: {}'.format(get_version()))
 
-    #统计表相关
+    print("\033[1;33;44m 一、统计表相关: \033[0m")
     get_table_schema_engine() #对数据库实例下各个库下使用存储引擎类型的统计
     get_table_size(1)           #超过1G的大表
     get_top_big_tables(20)     #排名前20的大表
@@ -30,13 +30,13 @@ if __name__ == '__main__':
     get_table_big_column()   #大字段列
     get_table_long_varchar_column(1000)
 
-    # 索引相关
+
+    print("\033[1;33;44m 二、索引检查: \033[0m")
     get_too_much_columns_indexs(6)
     get_not_primary_index()
 
-
-    #参数相关
-    print("\033[1;33;44m InnoDB层参数: \033[0m")
+    print("\033[1;33;44m 三、参数: \033[0m")
+    print("\033[1;33;44m 3.1.1--InnoDB层参数: \033[0m")
     get_param_value('tx_isolation')
     get_param_value('innodb_io_capacity')
     get_param_value('innodb_io_capacity_max')
@@ -57,16 +57,16 @@ if __name__ == '__main__':
     get_param_value('innodb_change_buffering')
     get_param_value('innodb_adaptive_hash_index')
 
-    print("\033[1;33;44m InnoDB redo参数: \033[0m")
+    print("\033[1;33;44m 3.1.2--InnoDB redo参数: \033[0m")
     get_param_value('innodb_flush_log_at_trx_commit')
     get_param_value('innodb_log_file_size')
     get_param_value('innodb_log_files_in_group')
     get_param_value('innodb_log_buffer_size')
 
-    print("\033[1;33;44m InnoDB undo参数: \033[0m")
+    print("\033[1;33;44m 3.1.3--InnoDB undo参数: \033[0m")
 
-    print("\033[1;33;44m server层参数: \033[0m")
-    print("\033[1;33;44m binlog相关的参数: \033[0m")
+    print("\033[1;33;44m 3.2--server层参数: \033[0m")
+    print("\033[1;33;44m 3.2.1--binlog相关的参数: \033[0m")
     get_param_value('sync_binlog')
     get_param_value('binlog_format')
     get_param_value('max_binlog_size')
@@ -74,7 +74,7 @@ if __name__ == '__main__':
     get_param_value('expire_logs_days')
     get_param_value('binlog_cache_size')
 
-    print("\033[1;33;44m 线程/会话相关的内存参数: \033[0m")
+    print("\033[1;33;44m 3.2.2--线程/会话相关的内存参数: \033[0m")
     get_param_value('key_buffer_size')
     get_param_value('query_cache_size')
     get_param_value('read_buffer_size')
@@ -84,7 +84,7 @@ if __name__ == '__main__':
     get_param_value('binlog_cache_size')
     get_param_value('tmp_table_size')
 
-    print("\033[1;33;44m 其它的参数: \033[0m")
+    print("\033[1;33;44m 3.2.4--其它的参数: \033[0m")
     get_param_value('max_allowed_packet')
     get_param_value('table_open_cache')
     get_param_value('max_execution_time')
@@ -100,10 +100,15 @@ if __name__ == '__main__':
     get_param_value('time_zone')
     get_param_value('log_timestamps')
 
+    print("\033[1;33;44m 数据库连接数: \033[0m")
+    get_param_value('max_connections')
+    get_param_value('max_connect_errors')
+    get_param_value('max_user_connections')
+    get_status_value('Max_used_connections')
 
-    #innodb buffer pool
-    print("\033[1;33;44m InnoDB Buffer Pool: \033[0m")
-    print("\033[1;33;44m ibp相关的参数: \033[0m")
+
+    print("\033[1;33;44m 四、InnoDB Buffer Pool的使用状况: \033[0m")
+    print("\033[1;33;44m 4.1--ibp的参数: \033[0m")
     get_param_value('innodb_random_read_ahead')
     get_param_value('innodb_read_ahead_threshold')
     get_param_value('innodb_buffer_pool_load_at_startup')
@@ -116,7 +121,7 @@ if __name__ == '__main__':
     get_param_value('innodb_old_blocks_pct')
     get_param_value('innodb_old_blocks_time')
 
-    print("\033[1;33;44m ibp相关的状态: \033[0m")
+    print("\033[1;33;44m 4.2--ibp的状态: \033[0m")
     get_status_value('innodb_buffer_pool_pages_dirty')
     get_status_value('innodb_buffer_pool_pages_total')
     get_status_value('Innodb_buffer_pool_pages_data')
@@ -126,61 +131,52 @@ if __name__ == '__main__':
     get_status_value('Innodb_buffer_pool_pages_free')
     get_status_value('Innodb_buffer_pool_wait_free')
 
-    #计算脏页在内存占的占比
+    print("\033[1;33;44m 4.3--脏页在内存中的占比: \033[0m")
     ibp_pages_dirty = get_status_value('innodb_buffer_pool_pages_dirty', 0)
     ibp_pages_total = get_status_value('innodb_buffer_pool_pages_total', 0)
     dirty_page = round(int(ibp_pages_dirty) / int(ibp_pages_total), 4)
-    print('脏页在内存占的占比为: {}%'.format(dirty_page * 100))
+    print('脏页在内存数据页中的占比为: {}%'.format(dirty_page * 100))
 
-    #计算InnoDB buffer pool 命中率
+    print("\033[1;33;44m 4.4--InnoDB buffer pool 命中率: \033[0m")
     ibp_read_requests = get_status_value('innodb_buffer_pool_read_requests', 0)
     ibp_read_ahead    = get_status_value('innodb_buffer_pool_read_ahead', 0)
     ibp_read_reads    = get_status_value('innodb_buffer_pool_reads', 0)
     ibp_hit = int(ibp_read_requests) / (int(ibp_read_requests) + int(ibp_read_ahead) + int(ibp_read_reads))
     print('InnoDB buffer pool 命中率: {}%'.format(round(ibp_hit,4) * 100))
 
-    # 判断 InnoDB buffer pool是否使用紧张
+    print("\033[1;33;44m 4.5--ibp是否使用紧张: \033[0m")
     ibp_wait_free = get_status_value('Innodb_buffer_pool_wait_free', 0)
     if int(ibp_wait_free) > 0:
         print('注意：InnoDB Buffer Pool可能不够用了，需要详细检查并处理，目前等待申请空闲列表的次数为: {} 次'.format(ibp_wait_free))
 
 
-    print("\033[1;33;44m 数据库连接数: \033[0m")
-    get_param_value('max_connections')
-    get_param_value('max_connect_errors')
-    get_param_value('max_user_connections')
-    get_status_value('Max_used_connections')
 
 
-    print("\033[1;33;44m MySQL状态值: \033[0m")
-    print("\033[1;33;44m 因 log buffer不足导致等待的次数: \033[0m")
-    get_status_value('Innodb_log_waits')
-    innodb_log_waits = get_status_value('Innodb_log_waits', 0)
-    print('因 log buffer不足导致等待的次数(Innodb_log_waits): {} 次'.format(innodb_log_waits))
+    print("\033[1;33;44m 五、MySQL状态值: \033[0m")
 
-    print("\033[1;33;44m 线程连接数: \033[0m")
+
+    print("\033[1;33;44m 5.1--并发线程连接数: \033[0m")
     get_status_value('Threads_connected')
     get_status_value('Threads_created')
     get_status_value('Threads_running')
 
-    print("\033[1;33;44m 行锁等待: \033[0m")
+    print("\033[1;33;44m 5.2--行锁等待: \033[0m")
     get_status_value('Innodb_row_lock_current_waits')
     get_status_value('Innodb_row_lock_time')
     get_status_value('Innodb_row_lock_time_avg')
     get_status_value('Innodb_row_lock_time_max')
     get_status_value('Innodb_row_lock_waits')
 
-    print("\033[1;33;44m 打开表的次数: \033[0m")
+    print("\033[1;33;44m 5.3--打开表的次数: \033[0m")
     get_status_value('Open_files')
     get_status_value('Open_tables')
     get_status_value('Opened_tables')
 
-    print("\033[1;33;44m 创建的内存临时表和磁盘临时表的次数: \033[0m")
+    print("\033[1;33;44m 5.4--创建的内存临时表和磁盘临时表的次数: \033[0m")
     get_status_value('Created_tmp_tables')
     get_status_value('Created_tmp_disk_tables')
 
-    print("\033[1;33;44m double write的使用情况: \033[0m")
-
+    print("\033[1;33;44m 5.5--double write的使用情况: \033[0m")
     get_status_value('Innodb_dblwr_pages_written')
     get_status_value('Innodb_dblwr_writes')
 
@@ -189,9 +185,16 @@ if __name__ == '__main__':
     merge_pages         = int(dblwr_pages_written) / int(dblwr_writes)
     print('每次写操作合并page的个数: {}'.format(round(merge_pages, 0)))
 
+    print("\033[1;33;44m 5.6--因log buffer不足导致等待的次数: \033[0m")
+    get_status_value('Innodb_log_waits')
+    innodb_log_waits = get_status_value('Innodb_log_waits', 0)
+    print('因 log buffer不足导致等待的次数(Innodb_log_waits): {} 次'.format(innodb_log_waits))
+
 
     get_long_transactions(10)    #获取执行时间大于10秒的长事务
     get_sql_tmp_tables(2)         #使用到内存临时表或者磁盘临时表的SQL
+    get_innodb_lock_waits_list()  #行锁等待列表
+
 
 
     print("end time: %s" % format_to_ymdx())
