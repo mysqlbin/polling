@@ -1,12 +1,13 @@
 #!/usr/local/bin/python3
 #coding=utf-8
 
+import sys
 import datetime
 from db_utils.db_function import get_process_data
 
 from common_utils.time_functions import  format_to_ymdx
 from db_utils.polling_table_schema  import get_table_schema_engine,get_version,get_table_size,get_top_big_tables,get_big_fragment_tables,\
-    get_auto_increment_ratio,get_table_rows,get_table_big_column,get_table_long_varchar_column, get_long_transactions, get_sql_tmp_tables
+    get_auto_increment_ratio,get_table_rows,get_table_big_column,get_table_long_varchar_column, get_long_transactions, get_sql_tmp_tables,get_innodb_lock_waits_list
 
 from db_utils.polling_function_index import get_too_much_columns_indexs,get_not_primary_index
 
@@ -15,6 +16,28 @@ from db_utils.polling_param_status import get_param_value,get_status_value
 
 
 if __name__ == '__main__':
+
+    sql_get_user = '''select concat("\'", user, "\'", '@', "\'", host,"\'") as query from mysql.user;'''
+    res = get_process_data(sql_get_user, 2)
+    # print(res)
+    res_user_priv = []
+    for db_user in res:
+        user_info = {}
+        sql_get_permission = 'show grants for {};'.format(db_user[0])
+        user_priv = get_process_data(sql_get_permission, 2)
+        user_info['user'] = db_user[0]
+        user_info['privileges'] = user_priv
+        res_user_priv.append(user_info)
+
+
+    for db_user in res_user_priv:
+        # print(db_user['user'])
+        print('User@Host: '.format(db_user['user']))
+        print('privileges: ')
+        for pri in db_user['privileges']:
+            print(  pri[0])
+    sys.exit()
+
 
     print("start time: %s" % format_to_ymdx())
 
@@ -38,6 +61,7 @@ if __name__ == '__main__':
     print("\033[1;33;44m 三、参数: \033[0m")
     print("\033[1;33;44m 3.1.1--InnoDB层参数: \033[0m")
     get_param_value('tx_isolation')
+    get_param_value('innodb_rollback_on_timeout')
     get_param_value('innodb_io_capacity')
     get_param_value('innodb_io_capacity_max')
     get_param_value('innodb_flush_method')

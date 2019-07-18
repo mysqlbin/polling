@@ -28,6 +28,7 @@
 		#3.1. InnoDB 层
 
             tx_isolation
+            innodb_rollback_on_timeout
             innodb_io_capacity
             innodb_io_capacity_max
             innodb_flush_method
