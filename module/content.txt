@@ -184,7 +184,7 @@
 	 #死锁
 	 #MDL锁
 
-    实例下的所有用户和对应的权限
+    七、实例下的所有用户和对应的权限
 
     账号所需权限：
         grant process,select on *.* to 'polling_user'@'%' identified by '123456abc';

@@ -7,7 +7,8 @@ from db_utils.db_function import get_process_data
 
 from common_utils.time_functions import  format_to_ymdx
 from db_utils.polling_table_schema  import get_table_schema_engine,get_version,get_table_size,get_top_big_tables,get_big_fragment_tables,\
-    get_auto_increment_ratio,get_table_rows,get_table_big_column,get_table_long_varchar_column, get_long_transactions, get_sql_tmp_tables,get_innodb_lock_waits_list
+    get_auto_increment_ratio,get_table_rows,get_table_big_column,get_table_long_varchar_column, get_long_transactions, get_sql_tmp_tables,\
+    get_innodb_lock_waits_list,get_instance_user_privileges
 
 from db_utils.polling_function_index import get_too_much_columns_indexs,get_not_primary_index
 
@@ -16,28 +17,6 @@ from db_utils.polling_param_status import get_param_value,get_status_value
 
 
 if __name__ == '__main__':
-
-    sql_get_user = '''select concat("\'", user, "\'", '@', "\'", host,"\'") as query from mysql.user;'''
-    res = get_process_data(sql_get_user, 2)
-    # print(res)
-    res_user_priv = []
-    for db_user in res:
-        user_info = {}
-        sql_get_permission = 'show grants for {};'.format(db_user[0])
-        user_priv = get_process_data(sql_get_permission, 2)
-        user_info['user'] = db_user[0]
-        user_info['privileges'] = user_priv
-        res_user_priv.append(user_info)
-
-
-    for db_user in res_user_priv:
-        # print(db_user['user'])
-        print('User@Host: '.format(db_user['user']))
-        print('privileges: ')
-        for pri in db_user['privileges']:
-            print(  pri[0])
-    sys.exit()
-
 
     print("start time: %s" % format_to_ymdx())
 
@@ -214,11 +193,19 @@ if __name__ == '__main__':
     innodb_log_waits = get_status_value('Innodb_log_waits', 0)
     print('因 log buffer不足导致等待的次数(Innodb_log_waits): {} 次'.format(innodb_log_waits))
 
-
-    get_long_transactions(10)    #获取执行时间大于10秒的长事务
     get_sql_tmp_tables(2)         #使用到内存临时表或者磁盘临时表的SQL
-    get_innodb_lock_waits_list()  #行锁等待列表
 
+    get_long_transactions(10)  # 获取执行时间大于10秒的长事务
+    get_innodb_lock_waits_list()  # 行锁等待列表
+
+    print("\033[1;33;44m 七、实例下的所有用户和对应的权限: \033[0m")
+
+    res_user_priv = get_instance_user_privileges()
+    for index, db_user in enumerate(res_user_priv):
+        print('{}.User@Host: {}'.format(index, db_user['user']))
+        print('privileges:')
+        for pri in db_user['privileges']:
+            print(pri[0])
 
 
     print("end time: %s" % format_to_ymdx())
