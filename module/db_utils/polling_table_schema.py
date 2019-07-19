@@ -3,6 +3,7 @@
 
 from db_utils.db_function import get_process_data
 
+
 #0 get table schema engine
 def get_table_schema_engine():
     print("\033[1;33;44m 0: result of group by engine type: \033[0m")
@@ -111,12 +112,16 @@ def get_table_long_varchar_column(character_maximum_length = 500):
 #long uncommitted transactions
 def get_long_transactions(time = 1):
     print("\033[1;33;44m result of long uncommitted transactions\033[0m")
-    sql = "select pro.host, pro.user, pro.db, trx.trx_state, pro.COMMAND, concat(pro.time,'s') as runtime, trx.trx_id, pro.id as thread_id \
+    sql = "select pro.host, pro.user, pro.db, trx.trx_state, pro.COMMAND, concat(pro.time,'s') as runtime, trx.trx_id, pro.id as thread_id, trx.trx_query \
           from  information_schema.innodb_trx trx left join information_schema.PROCESSLIST pro on trx.trx_mysql_thread_id = pro.id where pro.time > {}".format(time)
     results = get_process_data(sql, 0)
     if results:
         for val in results:
-            print('host:{:20s} user:{:20s} db:{:20s} trx_state:{:10s} command:{:10s} time:{:10s} trx_id:{:10s} thread_id:{} '.format(val[0], val[1], val[2], val[3], val[4], val[5], val[6], val[7]))
+            if val[8] == None:
+                trx_query = ''
+            else:
+                trx_query = val[0]
+            print('host:{:20s} user:{:20s} db:{:20s} trx_state:{:10s} command:{:10s} time:{:10s} trx_id:{:10s} thread_id:{}  trx_query:{:20s} '.format(val[0], val[1], val[2], val[3], val[4], val[5], val[6], val[7], trx_query))
     else:
         print("   no long uncommitted transactions...")
 
@@ -153,21 +158,23 @@ def get_innodb_lock_waits_list():
 
     innodb_row_lock_current_waits = get_innodb_row_lock_current_waits()
     if int(innodb_row_lock_current_waits) > 0:
+
         print("\033[1;33;44m 行锁等待列表：\033[0m")
 
         sql_version = "select version()"
         results = get_process_data(sql_version)
         if results:
-            get_version = results[0][0:3]
+            get_version = results[0][0:3].replace('.','')
         else:
-            get_version = '5.7'
+            get_version = '57'
 
-        if get_version >= '5.7':
+        if get_version >= '57':
+            print(1)
             sql  = "select locked_index,locked_type,blocking_lock_mode,waiting_lock_mode,waiting_query from sys.innodb_lock_waits"
             results = get_process_data(sql, 0)
             if results:
                 for val in results:
-                    print('locked_index:{:10s} locked_type:{:10s} blockint_block_mode:{:10s} waiting_lock_mode:{:10s} waiting_query:{}'.format(val[0], val[1], val[2], val[3], val[4]))
+                    print('locked_index:{:10s} locked_type:{:10s} blocking_block_mode:{:10s} waiting_lock_mode:{:10s} waiting_query:{}'.format(val[0], val[1], val[2], val[3], val[4]))
             else:
                 print("no innodb row lock current waits list...")
         else:
@@ -178,4 +185,19 @@ def get_innodb_lock_waits_list():
                     print('requesting_trx_id:{:10s} requested_lock_id:{:10s} blocking_trx_id:{:10s} blocking_lock_id:{} '.format(val[0], val[1], val[2], val[3]))
             else:
                 print("no innodb row lock current waits list...")
+
+
+def get_instance_user_privileges():
+    sql_get_user = '''select concat("\'", user, "\'", '@', "\'", host,"\'") as query from mysql.user;'''
+    res = get_process_data(sql_get_user, 2)
+    res_user_priv = []
+    for db_user in res:
+        user_info = {}
+        sql_get_permission = 'show grants for {};'.format(db_user[0])
+        user_priv = get_process_data(sql_get_permission, 2)
+        user_info['user'] = db_user[0]
+        user_info['privileges'] = user_priv
+        res_user_priv.append(user_info)
+    return res_user_priv
+
 

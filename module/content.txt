@@ -28,6 +28,7 @@
 		#3.1. InnoDB 层
 
             tx_isolation
+            innodb_rollback_on_timeout
             innodb_io_capacity
             innodb_io_capacity_max
             innodb_flush_method
@@ -183,7 +184,7 @@
 	 #死锁
 	 #MDL锁
 
-    实例下的所有用户和对应的权限
+    七、实例下的所有用户和对应的权限
 
     账号所需权限：
         grant process,select on *.* to 'polling_user'@'%' identified by '123456abc';
