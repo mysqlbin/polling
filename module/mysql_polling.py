@@ -38,7 +38,9 @@ if __name__ == '__main__':
     get_not_primary_index()
 
     print("\033[1;33;44m 三、参数: \033[0m")
+
     print("\033[1;33;44m 3.1.1--InnoDB层参数: \033[0m")
+    get_param_value('autocommit')
     get_param_value('tx_isolation')
     get_param_value('innodb_rollback_on_timeout')
     get_param_value('innodb_io_capacity')
