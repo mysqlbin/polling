@@ -26,7 +26,8 @@
 	三. 参数检查(variables)
 
 		#3.1. InnoDB 层
-
+            InnoDB参数的文档：
+               https://dev.mysql.com/doc/refman/5.7/en/innodb-parameters.html
             tx_isolation
             innodb_rollback_on_timeout
             innodb_io_capacity
@@ -143,6 +144,7 @@
 
 
 	五. 状态值:
+	  https://dev.mysql.com/doc/refman/5.7/en/server-status-variables.html
 	  5.1 当前并发连接数:
 		Threads_connected  并发连接数（表示当前所有已经连接的线程数）
 		Threads_created    表示当前所有已经创建的线程数
@@ -169,9 +171,10 @@
         Innodb_dblwr_pages_written
         Innodb_dblwr_writes
 
-      5.6 因 log buffer不足导致等待的次数:
+      5.6 因 log buffer不足导致等待写redo的次数:
         Innodb_log_waits
-
+        https://dev.mysql.com/doc/refman/5.7/en/server-status-variables.html#statvar_Innodb_log_waits
+        The number of times that the log buffer was too small and a wait was required for it to be flushed before continuing.
 
     六、长事务、临时表、行锁等待列表:
 
