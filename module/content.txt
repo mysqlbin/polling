@@ -113,7 +113,7 @@
 
 	    innodb_buffer_pool_load_at_startup    #预热: 把热数据从磁盘load到buffer pool
         innodb_buffer_pool_dump_at_shutdown   #预热: 把热数据从buffer pool dump到磁盘
-        innodb_flush_neighbors                #预写
+        innodb_flush_neighbors                #预写, SSD可以关闭，传统机械硬盘开启；
 
         innodb_buffer_pool_size               #缓冲池大小
         innodb_buffer_pool_instances          #缓冲池实例数
@@ -126,7 +126,9 @@
 		innodb_buffer_pool_pages_dirty            #脏页数据的大小;     单位是Page
 		innodb_buffer_pool_pages_total            #缓冲池总共的页面数; 单位是Page
 		innodb_buffer_pool_read_requests          #从缓冲池读取页的次数
-		innodb_buffer_pool_read_ahead             #预读的次数
+		#预读的状态监控
+		innodb_buffer_pool_read_ahead             #预读的页数
+        Innodb_buffer_pool_read_ahead_evicted     #无效的预读页数，即通过预读把数据页读取内存，但是没有被使用就被淘汰的页数
 		innodb_buffer_pool_reads                  #从磁盘读取页的次数
 		Innodb_buffer_pool_pages_data             #分配出去，正在被使用page的数量，包括脏页；单位是Page
         Innodb_buffer_pool_pages_free             #空闲的page数量; 单位是Page
@@ -166,6 +168,7 @@
       5.5 double write的使用情况:
         Innodb_dblwr_pages_written
         Innodb_dblwr_writes
+
       5.6 因 log buffer不足导致等待的次数:
         Innodb_log_waits
 
@@ -189,6 +192,7 @@
     账号所需权限：
         grant process,select on *.* to 'polling_user'@'%' identified by '123456abc';
 
+    八、复制相关参数
 
 
 	数据库统计信息：

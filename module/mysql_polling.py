@@ -40,7 +40,9 @@ if __name__ == '__main__':
     print("\033[1;33;44m 三、参数: \033[0m")
 
     print("\033[1;33;44m 3.1.1--InnoDB层参数: \033[0m")
+
     get_param_value('autocommit')
+
     get_param_value('tx_isolation')
     get_param_value('innodb_rollback_on_timeout')
     get_param_value('innodb_io_capacity')
@@ -132,6 +134,7 @@ if __name__ == '__main__':
     get_status_value('Innodb_buffer_pool_pages_data')
     get_status_value('innodb_buffer_pool_read_requests')
     get_status_value('innodb_buffer_pool_read_ahead')
+    get_status_value('Innodb_buffer_pool_read_ahead_evicted')
     get_status_value('innodb_buffer_pool_reads')
     get_status_value('Innodb_buffer_pool_pages_free')
     get_status_value('Innodb_buffer_pool_wait_free')
@@ -195,8 +198,9 @@ if __name__ == '__main__':
     innodb_log_waits = get_status_value('Innodb_log_waits', 0)
     print('因 log buffer不足导致等待的次数(Innodb_log_waits): {} 次'.format(innodb_log_waits))
 
-    get_sql_tmp_tables(2)         #使用到内存临时表或者磁盘临时表的SQL
 
+
+    get_sql_tmp_tables(2)         #使用到内存临时表或者磁盘临时表的SQL
     get_long_transactions(10)  # 获取执行时间大于10秒的长事务
     get_innodb_lock_waits_list()  # 行锁等待列表
 
