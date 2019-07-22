@@ -30,7 +30,9 @@
                https://dev.mysql.com/doc/refman/5.7/en/innodb-parameters.html
             tx_isolation
             innodb_rollback_on_timeout
-            innodb_io_capacity
+            innodb_io_capacity = iops
+                 fio -filename=fio.txt -direct=1 -iodepth 1 -thread -rw=randrw -ioengine=psync -bs=16k -size=2048M -numjobs=10 -runtime=10 -group_reporting -name=mytest
+
             innodb_io_capacity_max
             innodb_flush_method
             innodb_file_per_table
@@ -52,6 +54,8 @@
             #AHI:
                 innodb_adaptive_hash_index
 
+
+
         #3.1.2. InnoDB Redo
             innodb_flush_log_at_trx_commit
             innodb_log_file_size
@@ -60,6 +64,11 @@
 
         #3.1.3 InnoDB undo log
 
+
+        #3.1.4 持久化统计信息
+            innodb_stats_persistent
+            innodb_stats_persistent_sample_pages
+            innodb_stats_auto_recalc
 
 		#3.2 Server 层
 		3.2.1 binlog:
@@ -204,3 +213,4 @@
         共有多少个存储过程
         共有多少个事件
 	
+

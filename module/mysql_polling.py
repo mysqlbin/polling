@@ -72,6 +72,12 @@ if __name__ == '__main__':
 
     print("\033[1;33;44m 3.1.3--InnoDB undo参数: \033[0m")
 
+    print("\033[1;33;44m 3.1.3--InnoDB 持久化统计信息参数: \033[0m")
+    get_param_value('innodb_stats_persistent')
+    get_param_value('innodb_stats_persistent_sample_pages')
+    get_param_value('innodb_stats_auto_recalc')
+
+
     print("\033[1;33;44m 3.2--server层参数: \033[0m")
     print("\033[1;33;44m 3.2.1--binlog相关的参数: \033[0m")
     get_param_value('sync_binlog')
