@@ -96,6 +96,7 @@
             tmp_table_size
         3.2.4 其它参数
             max_allowed_packet
+            net_buffer_length
             table_open_cache
             max_execution_time
             sql_mode
@@ -130,7 +131,7 @@
         innodb_lru_scan_depth                 #控制LRU列表中可用页的数量，默认值为1024
         innodb_max_dirty_pages_pct            #达到最大脏页占比，强制进行 checkpoint, 刷新一部分的脏页到磁盘
         innodb_old_blocks_pct                 #lru中旧区域数据的占比
-        innodb_old_blocks_time                #控制lru中数据停留在old区域头部的时间
+        innodb_old_blocks_time                #控制新读入LRU链表的数据页停留在old区域头部的时间
 
       4.2 状态值:
 		innodb_buffer_pool_pages_dirty            #脏页数据的大小;     单位是Page
@@ -206,6 +207,7 @@
 
     八、复制相关参数
 
+    sql_safe_updates
 
 	数据库统计信息：
 	    数据库的总量  #select concat(round(sum(data_length + index_length) / 1024 / 1024, 2),'M') as total_mb from information_schema.tables where TABLE_SCHEMA='niuniu_db'

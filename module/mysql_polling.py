@@ -99,6 +99,7 @@ if __name__ == '__main__':
 
     print("\033[1;33;44m 3.2.4--其它的参数: \033[0m")
     get_param_value('max_allowed_packet')
+    get_param_value('net_buffer_length')
     get_param_value('table_open_cache')
     get_param_value('max_execution_time')
     get_param_value('sql_mode')
