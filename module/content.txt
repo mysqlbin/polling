@@ -209,6 +209,8 @@
 
     sql_safe_updates
 
+    parallel
+
 	数据库统计信息：
 	    数据库的总量  #select concat(round(sum(data_length + index_length) / 1024 / 1024, 2),'M') as total_mb from information_schema.tables where TABLE_SCHEMA='niuniu_db'
         共有多少个表  #SELECT COUNT( * ) FROM information_schema.tables WHERE TABLE_SCHEMA = 'niuniu_db'
