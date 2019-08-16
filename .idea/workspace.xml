@@ -2,12 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="b7b2d23e-98d2-49ce-abf5-70aa23db85bf" name="Default" comment="">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/module/mysql_memory.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/module/os_polling.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/module/test_0611.py" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/module/.idea/workspace.xml" afterPath="$PROJECT_DIR$/module/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/module/db_utils/polling_function.py" afterPath="$PROJECT_DIR$/module/db_utils/polling_function.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/module/content.txt" afterPath="$PROJECT_DIR$/module/content.txt" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/module/mysql_polling.py" afterPath="$PROJECT_DIR$/module/mysql_polling.py" />
     </list>
     <ignored path="polling_manager.iws" />
@@ -39,7 +35,7 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="content-mini.txt" pinned="false" current-in-tab="true">
+      <file leaf-file-name="content-mini.txt" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/content-mini.txt">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="190">
@@ -49,11 +45,61 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="mysql_polling_mini.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/mysql_polling_mini.py">
+      <file leaf-file-name="text.py" pinned="false" current-in-tab="false">
+        <entry file="file://C:/Anaconda2/Lib/email/mime/text.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-323">
-              <caret line="35" column="12" selection-start-line="35" selection-start-column="2" selection-end-line="35" selection-end-column="12" />
+            <state relative-caret-position="285">
+              <caret line="16" column="8" selection-start-line="16" selection-start-column="8" selection-end-line="16" selection-end-column="8" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="mysql_polling.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/module/mysql_polling.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="133">
+              <caret line="19" column="0" selection-start-line="19" selection-start-column="0" selection-end-line="19" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="mysql_polling_2.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/module/mysql_polling_2.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="590">
+              <caret line="161" column="64" selection-start-line="161" selection-start-column="14" selection-end-line="161" selection-end-column="64" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="polling_table_schema.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/module/db_utils/polling_table_schema.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="220">
+              <caret line="111" column="30" selection-start-line="111" selection-start-column="1" selection-end-line="111" selection-end-column="30" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="repl_monitor_py2.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/module/repl_monitor_py2.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="171">
+              <caret line="10" column="0" selection-start-line="10" selection-start-column="0" selection-end-line="25" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="replication_consitent_check.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/module/replication_consitent_check.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="0">
+              <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -62,40 +108,18 @@
       <file leaf-file-name="mysql_polling.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/mysql_polling.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-1126">
+            <state relative-caret-position="532">
               <caret line="32" column="5" selection-start-line="32" selection-start-column="2" selection-end-line="32" selection-end-column="5" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="os_polling_2.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/module/os_polling_2.py">
+      <file leaf-file-name="innodb_trx_monitor_py2.py" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/module/innodb_trx_monitor_py2.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="133">
-              <caret line="7" column="26" selection-start-line="7" selection-start-column="26" selection-end-line="7" selection-end-column="26" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="db_function.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/module/db_utils/db_function.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="0">
-              <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-              <folding>
-                <element signature="e#1#15#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="os_polling.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/os_polling.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="247">
-              <caret line="13" column="20" selection-start-line="13" selection-start-column="20" selection-end-line="13" selection-end-column="20" />
+            <state relative-caret-position="456">
+              <caret line="25" column="0" selection-start-line="25" selection-start-column="0" selection-end-line="25" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -149,6 +173,8 @@
         <option value="$PROJECT_DIR$/module/ol_polling_2.py" />
         <option value="$PROJECT_DIR$/module/os_polling_2.py" />
         <option value="$PROJECT_DIR$/content.txt" />
+        <option value="$PROJECT_DIR$/module/innodb_trx_monitor.py" />
+        <option value="$PROJECT_DIR$/module/innodb_trx_monitor_py2.py" />
       </list>
     </option>
   </component>
@@ -240,7 +266,7 @@
     </panes>
   </component>
   <component name="PropertiesComponent">
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/module" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="two.files.diff.last.used.file" value="$PROJECT_DIR$/Pr_UserLogin8-old.sql" />
   </component>
   <component name="RunManager" selected="Python.mysql_polling">
@@ -505,18 +531,18 @@
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="true" content_ui="tabs" />
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.50475186" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="true" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.50475186" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
   <component name="Vcs.Log.UiProperties">
@@ -539,18 +565,11 @@
           <option name="timeStamp" value="2" />
         </line-breakpoint>
       </breakpoints>
-      <option name="time" value="4" />
+      <option name="time" value="5" />
     </breakpoint-manager>
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/Pr_AnaNewUser_ent-master.sql" />
-    <entry file="file://$PROJECT_DIR$/Pr_UserLogin8-new.sql" />
-    <entry file="file://$PROJECT_DIR$/Pr_UserLogin8-old.sql" />
-    <entry file="file://$PROJECT_DIR$/pr_2019_award_login-new.sql" />
-    <entry file="file://$PROJECT_DIR$/pr_2019_award_login-new-old.sql" />
-    <entry file="file://$PROJECT_DIR$/../db_automation/lqy.txt" />
-    <entry file="file://$PROJECT_DIR$/Python_study/Class/class.py" />
     <entry file="file://$PROJECT_DIR$/Python_study/Class/README.md" />
     <entry file="file://$USER_HOME$/.PyCharm2016.1/system/python_stubs/884504192/sys.py">
       <provider selected="true" editor-type-id="text-editor">
@@ -630,7 +649,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="456">
           <caret line="28" column="0" selection-start-line="28" selection-start-column="0" selection-end-line="28" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -647,14 +665,7 @@
     <entry file="file://$PROJECT_DIR$/../everyday_study/python_study/general_usage/psutils.py" />
     <entry file="file://$PROJECT_DIR$/module/common_utils/time_function.py" />
     <entry file="file://$PROJECT_DIR$/module/common_utils/functions.py" />
-    <entry file="file://$PROJECT_DIR$/module/test_0611.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="13" column="0" selection-start-line="13" selection-start-column="0" selection-end-line="13" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/module/test_0611.py" />
     <entry file="file://$PROJECT_DIR$/module/psutils.py" />
     <entry file="file://$PROJECT_DIR$/os_polling.py">
       <provider selected="true" editor-type-id="text-editor">
@@ -677,32 +688,8 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/module/mysql_memory.py" />
-    <entry file="file://$PROJECT_DIR$/module/os_polling.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-285">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/module/db_utils/polling_function.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-57">
-          <caret line="3" column="49" selection-start-line="3" selection-start-column="33" selection-end-line="3" selection-end-column="49" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/module/mysql_polling.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="342">
-          <caret line="19" column="24" selection-start-line="19" selection-start-column="4" selection-end-line="19" selection-end-column="24" />
-          <folding>
-            <element signature="e#40#55#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/module/os_polling.py" />
+    <entry file="file://$PROJECT_DIR$/module/db_utils/polling_function.py" />
     <entry file="file://$PROJECT_DIR$/module/os_polling_2.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="133">
@@ -713,7 +700,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/mysql_polling_mini.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-323">
+        <state relative-caret-position="589">
           <caret line="35" column="12" selection-start-line="35" selection-start-column="2" selection-end-line="35" selection-end-column="12" />
           <folding />
         </state>
@@ -721,7 +708,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/mysql_polling.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1126">
+        <state relative-caret-position="532">
           <caret line="32" column="5" selection-start-line="32" selection-start-column="2" selection-end-line="32" selection-end-column="5" />
           <folding />
         </state>
@@ -735,10 +722,74 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/module/replication_consitent_check.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/module/innodb_trx_monitor.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="494">
+          <caret line="27" column="110" selection-start-line="27" selection-start-column="19" selection-end-line="27" selection-end-column="114" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/content-mini.txt">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="190">
           <caret line="10" column="0" selection-start-line="10" selection-start-column="0" selection-end-line="10" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/module/db_utils/polling_table_schema.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="220">
+          <caret line="111" column="30" selection-start-line="111" selection-start-column="1" selection-end-line="111" selection-end-column="30" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://C:/Anaconda2/Lib/email/mime/text.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="285">
+          <caret line="16" column="8" selection-start-line="16" selection-start-column="8" selection-end-line="16" selection-end-column="8" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/module/mysql_polling_2.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="590">
+          <caret line="161" column="64" selection-start-line="161" selection-start-column="14" selection-end-line="161" selection-end-column="64" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/module/repl_monitor_py2.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="171">
+          <caret line="10" column="0" selection-start-line="10" selection-start-column="0" selection-end-line="25" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/module/mysql_polling.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="133">
+          <caret line="19" column="0" selection-start-line="19" selection-start-column="0" selection-end-line="19" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/module/innodb_trx_monitor_py2.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="456">
+          <caret line="25" column="0" selection-start-line="25" selection-start-column="0" selection-end-line="25" selection-end-column="0" />
           <folding />
         </state>
       </provider>

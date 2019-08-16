@@ -47,6 +47,7 @@ if __name__ == '__main__':
     get_param_value('innodb_rollback_on_timeout')
     get_param_value('innodb_io_capacity')
     get_param_value('innodb_io_capacity_max')
+    get_param_value('innodb_autoinc_lock_mode')
     get_param_value('innodb_flush_method')
     get_param_value('innodb_file_per_table')
     get_param_value('innodb_open_files')
