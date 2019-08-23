@@ -83,10 +83,15 @@ if __name__ == '__main__':
     print("\033[1;33;44m 3.2.1--binlog相关的参数: \033[0m")
     get_param_value('sync_binlog')
     get_param_value('binlog_format')
+    get_param_value('binlog_row_image')
     get_param_value('max_binlog_size')
     get_param_value('max_binlog_cache_size')
     get_param_value('expire_logs_days')
     get_param_value('binlog_cache_size')
+
+    get_param_value('binlog_group_commit_sync_delay')
+    get_param_value('binlog_group_commit_sync_no_delay_count')
+    get_param_value('binlog-transaction-dependency-tracking')
 
     print("\033[1;33;44m 3.2.2--线程/会话相关的内存参数: \033[0m")
     get_param_value('key_buffer_size')

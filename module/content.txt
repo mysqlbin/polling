@@ -62,6 +62,8 @@
             innodb_log_file_size
             innodb_log_files_in_group
             innodb_log_buffer_size
+            innodb_flush_log_at_timeout: 定义每次日志刷新的时间, 默认是1，也就是每秒log刷盘
+            Redo日志可写剩余空间：innodb_log_file_size*innodb_log_files_in_group - (Log flushed up to-Last checkpoint at)
 
         #3.1.3 InnoDB undo log
 
@@ -76,10 +78,12 @@
 
             sync_binlog
             binlog_format
+            binlog_row_image
             binlog_cache_size
             max_binlog_size
             max_binlog_cache_size
             expire_logs_days
+
         3.2.2 数据库连接数:
 		    max_connections
 		    max_connect_errors
@@ -141,6 +145,7 @@
 		#预读的状态监控
 		innodb_buffer_pool_read_ahead             #预读的页数
         Innodb_buffer_pool_read_ahead_evicted     #无效的预读页数，即通过预读把数据页读取内存，但是没有被使用就被淘汰的页数
+
 		innodb_buffer_pool_reads                  #从磁盘读取页的次数
 		Innodb_buffer_pool_pages_data             #分配出去，正在被使用page的数量，包括脏页；单位是Page
         Innodb_buffer_pool_pages_free             #空闲的page数量; 单位是Page
