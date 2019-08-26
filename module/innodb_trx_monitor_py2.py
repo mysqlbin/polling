@@ -8,13 +8,30 @@ reload(sys)
 import smtplib
 from email.mime.text import MIMEText
 
-host = 'smtp.163.com'
-port = 465
-sender = ''
-pwd = ''
-receiver = []
-
 sys.setdefaultencoding('utf-8')
+
+def send_mail(body, format = 'plain'):
+
+    host = 'smtp.163.com'
+    port = 465
+    sender = ''
+    pwd = ''
+    receiver = ['163.com', '@qq.com']
+    body = body
+    msg = MIMEText(body, format, 'utf-8')
+    msg['subject'] = 'Info: 2rm db2 long uncommitted transactions'
+    msg['from'] = sender
+    msg['to'] = ",".join(receiver)
+
+    try:
+        s = smtplib.SMTP_SSL(host, port)
+        s.login(sender, pwd)
+        s.sendmail(sender, receiver, msg.as_string())
+        print('Done.sent email success')
+    except smtplib.SMTPException as e:
+        print(e)
+        print('Error.sent email fail')
+
 db_connect = MySQLdb.connect(
     host='',
     user='',
@@ -23,7 +40,6 @@ db_connect = MySQLdb.connect(
     port=3306,
     charset='utf8mb4'
 )
-
 
 cur_write = db_connect.cursor()
 cur_write.execute("select trx_id, trx_state, trx_started, trx_mysql_thread_id, trx_query  from information_schema.innodb_trx where TIME_TO_SEC(timediff(now(),trx_started)) > 60;")
@@ -45,18 +61,4 @@ if res:
            <p>trx_query:%s </p> ' % \
              (trx_id, trx_state, trx_started, trx_mysql_thread_id, trx_query)
 
-    #body = 'Seconds_Behind_Master: %s' % seconds_behind_master
-
-    msg = MIMEText(body, 'html', 'utf-8')
-    msg['subject'] = 'Problem: 2rm db1 long uncommitted transactions'
-    msg['from'] = sender
-    msg['to'] = ",".join(receiver)
-
-    try:
-        s = smtplib.SMTP_SSL(host, port)
-        s.login(sender, pwd)
-        s.sendmail(sender, receiver, msg.as_string())
-        print('Done.sent email success')
-
-    except smtplib.SMTPException:
-        print('Error.sent email fail')
+    send_mail(body, 'html')
