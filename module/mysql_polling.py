@@ -91,7 +91,7 @@ if __name__ == '__main__':
 
     get_param_value('binlog_group_commit_sync_delay')
     get_param_value('binlog_group_commit_sync_no_delay_count')
-    get_param_value('binlog-transaction-dependency-tracking')
+    get_param_value('binlog_transaction_dependency_tracking')
 
     print("\033[1;33;44m 3.2.2--线程/会话相关的内存参数: \033[0m")
     get_param_value('key_buffer_size')
@@ -100,7 +100,6 @@ if __name__ == '__main__':
     get_param_value('read_rnd_buffer_size')
     get_param_value('sort_buffer_size')
     get_param_value('join_buffer_size')
-    get_param_value('binlog_cache_size')
     get_param_value('tmp_table_size')
 
     print("\033[1;33;44m 3.2.4--其它的参数: \033[0m")

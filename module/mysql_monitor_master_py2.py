@@ -35,7 +35,5 @@ if __name__ == '__main__':
         cursor = db.cursor()
         sql = "update mysql.health_check set t_modified=now() where id=330601;"
         cursor.execute(sql)
-        
-
     except Exception as e:
         print(e)
