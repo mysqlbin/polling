@@ -5,9 +5,9 @@
         对数据库实例下各个库下使用存储引擎类型的统计  get_table_schema_engine()
 		超过多少G的大表         get_table_size()
 		数据量排名前多少的表    get_top_big_tables()
+		单表超过行数多少万的表  get_table_rows()
 		碎片超过多多少G的表     get_big_fragment_tables()
 		自增ID占比              get_auto_increment_ratio()
-		单表超过行数多少万的表  get_table_rows()
         大字段表                get_table_big_column()
         字段长度过大的表        get_table_long_varchar_column()
 

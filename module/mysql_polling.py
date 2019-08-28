@@ -144,6 +144,7 @@ if __name__ == '__main__':
     get_status_value('innodb_buffer_pool_pages_dirty')
     get_status_value('innodb_buffer_pool_pages_total')
     get_status_value('Innodb_buffer_pool_pages_data')
+    get_status_value('Innodb_buffer_pool_pages_flushed')
     get_status_value('innodb_buffer_pool_read_requests')
     get_status_value('innodb_buffer_pool_read_ahead')
     get_status_value('Innodb_buffer_pool_read_ahead_evicted')
@@ -151,11 +152,11 @@ if __name__ == '__main__':
     get_status_value('Innodb_buffer_pool_pages_free')
     get_status_value('Innodb_buffer_pool_wait_free')
 
-    print("\033[1;33;44m 4.3--脏页在内存中的占比: \033[0m")
+    print("\033[1;33;44m 4.3--脏页在缓冲池中的占比: \033[0m")
     ibp_pages_dirty = get_status_value('innodb_buffer_pool_pages_dirty', 0)
     ibp_pages_total = get_status_value('innodb_buffer_pool_pages_total', 0)
     dirty_page = round(int(ibp_pages_dirty) / int(ibp_pages_total), 4)
-    print('脏页在内存数据页中的占比为: {}%'.format(dirty_page * 100))
+    print('脏页在缓冲池数据页中的占比为: {}%'.format(dirty_page * 100))
 
     print("\033[1;33;44m 4.4--InnoDB buffer pool 命中率: \033[0m")
     ibp_read_requests = get_status_value('innodb_buffer_pool_read_requests', 0)
@@ -196,7 +197,7 @@ if __name__ == '__main__':
     get_status_value('Created_tmp_tables')
     get_status_value('Created_tmp_disk_tables')
 
-    print("\033[1;33;44m 5.5--double write的使用情况: \033[0m")
+    print("\033[1;33;44m 5.5--InnoDB关键特性double write的使用情况: \033[0m")
     get_status_value('Innodb_dblwr_pages_written')
     get_status_value('Innodb_dblwr_writes')
 
