@@ -7,7 +7,7 @@ import sys
  
 mail_host = 'smtp.163.com' 
 mail_user = '13202095158@163.com'
-mail_pass = '20190809Go'
+mail_pass = ''
 mail_postfix = '163.com' 
  
 def send_mail(to_list,subject,content): 
