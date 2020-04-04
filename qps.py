@@ -18,7 +18,7 @@ import re
  --max-requests=0 --percentile=99 run >> /home/dba2/log/sysbench_oltpX_10-201910151037.log
 
 """
-conn = MySQLdb.connect(host='39.108.193.40', port=3306, user='root', passwd='root@481845%', charset='utf8mb4')
+conn = MySQLdb.connect(host='', port=3306, user='root', passwd='', charset='utf8mb4')
 cursor = conn.cursor()
 
 def sql_value(status):
