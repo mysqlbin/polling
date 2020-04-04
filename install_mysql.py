@@ -22,6 +22,7 @@ version_http_dict = {
     'mysql-5_7_22': 'https://dev.mysql.com/Downloads/MySQL-5.7/mysql-5.7.22-linux-glibc2.12-x86_64.tar.gz',
     'mysql-5_7_23': 'https://dev.mysql.com/Downloads/MySQL-5.7/mysql-5.7.23-linux-glibc2.12-x86_64.tar.gz',
     'mysql-5_7_24': 'https://dev.mysql.com/Downloads/MySQL-5.7/mysql-5.7.24-linux-glibc2.12-x86_64.tar.gz',
+    'mysql-5_7_26': 'https://dev.mysql.com/Downloads/MySQL-5.7/mysql-5.7.26-linux-glibc2.12-x86_64.tar.gz',
 }
 
 version_has_download_dict = {
