@@ -86,7 +86,7 @@ if table_fragment:
         table_name = table[1]
         data_free = table[2]
         print " table_schema: %-20s  table_name : %-20s fragment: %10s " % \
-              (table_schema, table_name, data_free)
+              (table_schema, table_name, data_free) 
 else:
     print "no table has big fragment"
 
