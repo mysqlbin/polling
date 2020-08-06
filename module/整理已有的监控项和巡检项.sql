@@ -1,18 +1,35 @@
-巡检项目可以写成一个类，哪些不需要的就不调用
 
-巡检项目
+目前已有的监控项和巡检项列表
+
+
+1. 监控项
+	
+	1. 长事务：        每隔30秒检测一次，超过10秒的SQL语句则通过邮件报警
+	2. 错误日志：      每隔5分钟检测一次，有异常则通过邮件报警
+	3. 慢查询：        1个小时检测一次，有慢查询则通过邮件报警
+	4. 主从复制监控：  1分钟检测一次，从库复制异常则通过邮件报警
+	5. MySQL 状态监控：1分钟检测一次，连接不上MySQL则通过邮件报警
+	6. DB3延迟从库的数据复制监控：每天的9点和18点检测一次 
+	
+2. 操作系统巡检
+	每天的8点40分自动巡检，巡检结果通过邮件发送
+	CPU： 核数、user使用率、system使用率
+	内存：总内存、可用内存
+	数据盘：总空间大小、剩余空间大小
+	系统盘：总空间大小、剩余空间大小
+
+3. 数据库层巡检
+	
+	把这些巡检的项目，
+	
 	一. 表检查
-		
-        对数据库实例下各个库下使用存储引擎类型的统计  get_table_schema_engine()
-		超过多少G的大表         get_table_size()
-		数据量排名前多少的表    get_top_big_tables()
-		单表超过行数多少万的表  get_table_rows()
-		碎片超过多多少G的表     get_big_fragment_tables()
-		自增ID占比              get_auto_increment_ratio()
-        大字段表                get_table_big_column()
-        字段长度过大的表        get_table_long_varchar_column()
-
-		#非默认字符集表
+        对数据库实例下各个库下使用存储引擎类型的统计：非InnoDB存储引擎则
+		超过多少5的表        
+		数据量排名前20的表    
+		单表超过行数1000W的表  
+		碎片超过1G的表     
+		自增ID占比: 观察已经使用的自增ID的大小超过50%的表             
+        
 
 	二. 索引检查
 	    索引数目超过多少个的表
@@ -27,13 +44,10 @@
 	三. 参数检查(variables)
 
 		#3.1. InnoDB 层
-            InnoDB参数的文档：
-               https://dev.mysql.com/doc/refman/5.7/en/innodb-parameters.html
+            
             tx_isolation
             innodb_rollback_on_timeout
-            innodb_io_capacity = iops
-                 fio -filename=fio.txt -direct=1 -iodepth 1 -thread -rw=randrw -ioengine=psync -bs=16k -size=2048M -numjobs=10 -runtime=10 -group_reporting -name=mytest
-
+            innodb_io_capacity 
             innodb_io_capacity_max
             innodb_autoinc_lock_mode
             innodb_flush_method
@@ -168,6 +182,7 @@
 		Threads_running    并发活跃线程数（表示当前正在运行的线程数）
 		
 	  5.2 行锁等待:
+		
 		Innodb_row_lock_current_waits  表示当前发生行锁等待的次数
 		Innodb_row_lock_time        表示当前发生行锁等待的总时间（以毫秒为单位）
 		Innodb_row_lock_time_avg    表示当前发生行锁等待的平均时间（以毫秒为单位）
@@ -241,4 +256,9 @@
         共有多少个存储过程
         共有多少个事件
 	
+
+
+
+
+
 

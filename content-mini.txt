@@ -54,4 +54,4 @@ information_schema.tables  where table_schema not in
 ('information_schema','mysql','performance_schema','sys') order by all_mb desc limit 20;
 
 data_length 是数据的大小;
-index_length 是索引的大小;
+index_length 是二级索引的大小;
